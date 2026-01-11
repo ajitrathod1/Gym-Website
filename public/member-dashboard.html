@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Member Dashboard – Smart Gym</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <h3>Member Panel</h3>
+    <nav>
+      <a href="#" class="nav-link active" data-tab="profile">My Profile</a>
+      <a href="#" class="nav-link" data-tab="posts">Trainer Posts</a>
+      <a href="#" class="nav-link" data-tab="payments">My Payments</a>
+      <a href="#" id="logoutBtn">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <!-- Profile Tab -->
+    <section id="profile" class="tab active">
+      <h2>My Profile</h2>
+      <div class="profile-card">
+        <img id="profPic" src="" alt="Profile" />
+        <form id="profileForm" class="auth-form">
+          <input type="text" id="fullName" placeholder="Full Name" required />
+          <input type="tel" id="phone" placeholder="Phone" required />
+          <input type="email" id="email" placeholder="Email" disabled />
+          <input type="number" id="age" placeholder="Age" min="10" max="100" required />
+          <select id="gender" required>
+            <option value="">Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+          <input type="text" id="address" placeholder="Address" />
+          <!-- NEW : plan & expiry -->
+          <label>Plan</label>
+          <input type="text" id="plan" disabled />
+          <label>Expiry Date</label>
+          <input type="text" id="expiry" disabled />
+          <label>Remaining Days</label>
+          <input type="text" id="remaining" disabled />
+
+          <input type="file" id="image" accept="image/*" />
+          <button type="submit">Update</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Posts Tab -->
+    <section id="posts" class="tab">
+      <h2>Trainer Posts</h2>
+      <div id="postsContainer" class="posts-grid"></div>
+    </section>
+
+    <!-- Payments Tab -->
+    <section id="payments" class="tab">
+      <h2>My Payment History</h2>
+      <table id="paymentsTable">
+        <thead>
+          <tr>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="js/member.js"></script>
+</body>
+</html>

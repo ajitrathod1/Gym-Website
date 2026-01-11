@@ -1,0 +1,376 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Styles for Boost Fitness Theme */
+
+/* Scanlines overlay */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0) 50%,
+      rgba(0, 0, 0, 0.2) 50%,
+      rgba(0, 0, 0, 0.2));
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.6;
+}
+
+/* Glitch Effect */
+.glitch {
+  position: relative;
+  color: white;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0A0A0A;
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -1px 0 #ff00c1;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -1px 0 #00fff9;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% {
+    clip: rect(33px, 9999px, 11px, 0);
+  }
+
+  20% {
+    clip: rect(85px, 9999px, 66px, 0);
+  }
+
+  40% {
+    clip: rect(25px, 9999px, 98px, 0);
+  }
+
+  60% {
+    clip: rect(6px, 9999px, 83px, 0);
+  }
+
+  80% {
+    clip: rect(54px, 9999px, 49px, 0);
+  }
+
+  100% {
+    clip: rect(10px, 9999px, 2px, 0);
+  }
+}
+
+@keyframes glitch-anim2 {
+  0% {
+    clip: rect(17px, 9999px, 94px, 0);
+  }
+
+  20% {
+    clip: rect(3px, 9999px, 5px, 0);
+  }
+
+  40% {
+    clip: rect(48px, 9999px, 32px, 0);
+  }
+
+  60% {
+    clip: rect(81px, 9999px, 26px, 0);
+  }
+
+  80% {
+    clip: rect(61px, 9999px, 73px, 0);
+  }
+
+  100% {
+    clip: rect(93px, 9999px, 40px, 0);
+  }
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+/* Blinking Cursor */
+.blinking-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 3D Perspective Utils */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FF4500;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff5e22;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Scroll Reveal Animation Classes */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered delays for child elements if needed */
+.delay-100 {
+  transition-delay: 0.1s;
+}
+
+.delay-200 {
+  transition-delay: 0.2s;
+}
+
+.delay-300 {
+  transition-delay: 0.3s;
+}
+
+/* Auth Pages Styling */
+/* Auth Pages Styling - Ultra Premium Reference Match */
+.auth-body {
+  background-color: #050505;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  color: white;
+  font-family: 'Oswald', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 480px;
+  padding: 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.auth-card {
+  background: #0f0f0f;
+  border: 1px solid #1a1a1a;
+  padding: 3rem 2.5rem;
+  position: relative;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 90% 100%, 0 100%);
+  /* Sharper Cut */
+}
+
+/* Neon Top Border */
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #FF4500, #ff6b00);
+  box-shadow: 0 0 15px rgba(255, 69, 0, 0.5);
+}
+
+.auth-card h2 {
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+  line-height: 1.1;
+}
+
+.role-selector {
+  display: flex;
+  margin-bottom: 2rem;
+  background: #151515;
+  padding: 4px;
+  border: 1px solid #222;
+}
+
+.role-btn {
+  flex: 1;
+  padding: 12px;
+  background: transparent;
+  color: #666;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+}
+
+.role-btn.active {
+  background: #FF4500;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 0 15px rgba(255, 69, 0, 0.2);
+}
+
+.auth-form input,
+.auth-form select {
+  width: 100%;
+  padding: 18px;
+  margin-bottom: 1.2rem;
+  background: #151515;
+  border: 1px solid #222;
+  color: #ddd;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  text-transform: uppercase;
+}
+
+.auth-form input::placeholder {
+  color: #444;
+}
+
+.auth-form input:focus,
+.auth-form select:focus {
+  border-color: #333;
+  background: #1a1a1a;
+  outline: none;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(90deg, #FF4500, #ff6b6b);
+  color: black;
+  font-weight: 800;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.4rem;
+  letter-spacing: 3px;
+  margin-top: 1.5rem;
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 93% 100%, 0 100%);
+  /* Button Cut */
+}
+
+.auth-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 69, 0, 0.2);
+  filter: brightness(1.1);
+}
+
+.switch {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.switch a {
+  color: #32CD32;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.switch a:hover {
+  color: #4aff4a;
+  text-shadow: 0 0 8px rgba(50, 205, 50, 0.4);
+}
+
+/* Hidden Utility */
+.hidden {
+  display: none;
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – Smart Gym</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a2e6d0335a.js" crossorigin="anonymous"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="auth-body">
+  <div class="auth-container">
+    <div class="auth-card">
+      <h2>Login</h2>
+
+      <!-- Role switch -->
+      <div class="role-selector">
+        <button class="role-btn active" data-role="member">Member</button>
+        <button class="role-btn" data-role="admin">Admin</button>
+      </div>
+
+      <!-- Member login -->
+      <form id="memberForm" class="auth-form">
+        <input type="email" placeholder="Email" id="memEmail" required />
+        <input type="password" placeholder="Password" id="memPass" required />
+        <button type="submit">Login</button>
+        <p class="switch">
+          New here? <a href="register.html">Register</a> |
+          <a href="forgot.html">Forgot password</a>
+        </p>
+      </form>
+
+      <!-- Admin login -->
+      <form id="adminForm" class="auth-form hidden">
+        <input type="text" placeholder="Username" id="admUser" required />
+        <input type="password" placeholder="Password" id="admPass" required />
+        <button type="submit">Login</button>
+        <p class="switch">
+          <a href="forgot-admin.html">Forgot password</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/login.js"></script>
+</body>
+</html>

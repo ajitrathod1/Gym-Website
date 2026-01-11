@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard – Smart Gym</title>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+  <style>
+    /* extra styles for avatar */
+    .avatar-frame img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    }
+    .avatar-frame {
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <h3>Admin Panel</h3>
+    <nav>
+      <a href="#" class="nav-link active" data-tab="members">Members</a>
+      <a href="#" class="nav-link" data-tab="posts">Posts</a>
+      <a href="#" class="nav-link" data-tab="payments">Payments</a>
+      <a href="#" class="nav-link" data-tab="profile">Profile</a>
+      <a href="#" id="logoutBtn">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <!-- Members Tab -->
+    <section id="members" class="tab active">
+      <div class="section-header">
+        <h2>Members</h2>
+        <button id="addMemberBtn" class="btn-primary">+ Add Member</button>
+      </div>
+      <table id="membersTable">
+        <thead>
+          <tr>
+            <th>Picture</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Joined</th>
+            <th>Plan</th>
+            <th>Amount</th>
+            <th>Remaining Days</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Posts Tab -->
+    <section id="posts" class="tab">
+      <div class="section-header">
+        <h2>Trainer Posts</h2>
+        <button id="addPostBtn" class="btn-primary">+ New Post</button>
+      </div>
+      <div id="postsContainer" class="posts-grid"></div>
+    </section>
+
+    <!-- Payments Tab -->
+    <section id="payments" class="tab">
+      <div class="section-header">
+        <h2>Payment Records</h2>
+        <button id="addPaymentBtn" class="btn-primary">+ Add Payment</button>
+      </div>
+      <table id="paymentsTable">
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Profile Tab -->
+    <section id="profile" class="tab">
+      <h2>Admin Profile</h2>
+
+      <!-- Avatar display -->
+      <div class="avatar-frame">
+        <img id="adminAvatar" src="/img/default-avatar.png" alt="Admin">
+      </div>
+
+      <form id="profileForm" class="auth-form">
+        <input type="text" id="username" placeholder="Username" required/>
+        <input type="email" id="email" placeholder="Email" readonly/>
+        <input type="file" id="avatarInput" accept="image/*"/>
+        <input type="password" placeholder="New Password" id="newPass"/>
+        <button type="submit">Update</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Modals -->
+  <div id="memberModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Add Member</h3>
+      <form id="memberModalForm">
+        <input type="text" placeholder="Full Name" name="fullName" required/>
+        <input type="tel" placeholder="Phone" name="phone" required/>
+        <input type="email" placeholder="Email" name="email" required/>
+        <input type="number" placeholder="Age" name="age" min="10" max="100" required/>
+        <select name="gender" required>
+          <option value="">Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+        <input type="text" placeholder="Address" name="address"/>
+        <select name="subscriptionPlan" required>
+          <option>Monthly</option>
+          <option>Custom</option>
+        </select>
+        <input type="number" placeholder="Amount Paid" name="amount"/>
+        <input type="file" name="image" accept="image/*"/>
+        <button type="submit">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="postModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>New Post</h3>
+      <form id="postModalForm">
+        <textarea placeholder="Write something..." name="textContent" required></textarea>
+        <input type="file" name="image" accept="image/*"/>
+        <button type="submit">Post</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
