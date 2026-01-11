@@ -8,12 +8,47 @@ const role = require('../middleware/role');
 const upload = require('../middleware/uploads');
 const router = express.Router();
 
+/* ---------- ANALYTICS & STATS ---------- */
+router.get('/stats', auth, role(['admin']), async (req, res) => {
+  try {
+    const totalMembers = await Member.countDocuments();
+
+    // Revenue (Sum of all payments)
+    const payments = await Payment.find();
+    const totalRevenue = payments.reduce((acc, p) => acc + (p.amount || 0), 0);
+
+    // Expiring Soon (Next 7 days)
+    const nextWeek = new Date();
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    const expiringSoon = await Member.countDocuments({
+      expiryDate: { $lte: nextWeek, $gte: new Date() }
+    });
+
+    // Mock Weekly Footfall (Since we don't have real attendance yet)
+    // In a real app, we'd query Attendance model
+    const weeklyFootfall = [45, 52, 38, 65, 42, 58, 70]; // Mon-Sun
+
+    res.json({
+      totalMembers,
+      totalRevenue,
+      expiringSoon,
+      weeklyFootfall
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Stats failed' });
+  }
+});
+
 /* ---------- MEMBERS CRUD ---------- */
 // Get all members
 router.get('/members', auth, role(['admin']), async (req, res) => {
   try {
     const members = await Member.find().lean();
     const now = new Date();
+
+    // Attach latest payment info if needed, or just rely on global stats
+    // For now, calculating remaining days
     members.forEach(m => {
       m.remainingDays = Math.ceil((new Date(m.expiryDate) - now) / (1000 * 60 * 60 * 24));
     });
@@ -23,14 +58,14 @@ router.get('/members', auth, role(['admin']), async (req, res) => {
   }
 });
 
-// Add member
+// Add member (Now records Payment)
 router.post('/members', auth, role(['admin']), upload, async (req, res) => {
   try {
     const { fullName, phone, email, age, gender, address, subscriptionPlan, amount } = req.body;
     const exists = await Member.findOne({ email });
     if (exists) return res.status(400).json({ msg: 'Email already registered' });
 
-    const hashed = await bcrypt.hash('123456', 12); // default password
+    const hashed = await bcrypt.hash('123456', 12);
     const expiry = new Date();
     expiry.setDate(expiry.getDate() + (subscriptionPlan === 'Monthly' ? 30 : 90));
 
@@ -40,9 +75,20 @@ router.post('/members', auth, role(['admin']), upload, async (req, res) => {
       profilePicture: req.file ? `uploads/members/${req.file.filename}` : 'assets/avatar.png'
     });
 
-    res.json({ msg: 'Member added', member });
+    // RECORD PAYMENT
+    if (amount > 0) {
+      await Payment.create({
+        memberId: member._id,
+        amount: Number(amount),
+        date: new Date(),
+        remarks: `Joining Fee - ${subscriptionPlan}`
+      });
+    }
+
+    res.json({ msg: 'Member added & Payment recorded', member });
   } catch (err) {
-    res.status(500).json({ msg: 'Add failed' });
+    console.error(err);
+    res.status(500).json({ msg: 'Add failed', error: err.message });
   }
 });
 

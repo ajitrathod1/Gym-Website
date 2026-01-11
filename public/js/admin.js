@@ -34,13 +34,27 @@ sidebarLinks.forEach(link => {
   });
 });
 
-/* ---------- STATS (Client Side Calc) ---------- */
-// Simple summary of members
+/* ---------- STATS (Animated Counters) ---------- */
+function animateValue(obj, start, end, duration) {
+  let startTimestamp = null;
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    obj.innerHTML = Math.floor(progress * (end - start) + start).toLocaleString();
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    }
+  };
+  window.requestAnimationFrame(step);
+}
+
 async function loadStats() {
-  try {
-    // Just for demo, we might fetch real stats if API existed. 
-    // For now, loadMembers() does the heavy lifting.
-  } catch (e) { console.error(e); }
+  // Animate Counters
+  const counters = document.querySelectorAll('.counter');
+  counters.forEach(counter => {
+    const target = +counter.getAttribute('data-target');
+    animateValue(counter, 0, target, 2000);
+  });
 }
 
 /* ---------- MEMBERS ---------- */
@@ -113,43 +127,125 @@ window.editSubscription = async id => {
 };
 
 /* ---------- POSTS ---------- */
+/* ---------- POSTS (Website News Feed) ---------- */
+// This function syncs with the main website's "Latest Updates" section
 async function loadPosts() {
   try {
     const res = await fetch('/api/posts', { headers: getHeaders() });
-    let posts = [];
-    try { posts = await res.json(); } catch (e) {
-      posts = [
-        { _id: 'p1', textContent: 'New batch starting at 6 AM!', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=500', adminId: { username: 'Admin' }, createdAt: new Date() },
-        { _id: 'p2', textContent: 'Nutrition seminar this Sunday.', image: null, adminId: { username: 'Admin' }, createdAt: new Date() }
-      ];
-    }
+    const posts = await res.json();
+    // If API fails or is empty, fall back to mock data
+    if (!posts || posts.length === 0) throw new Error("No posts found");
+    renderPosts(posts);
+  } catch (e) {
+    console.warn("Using Mock Data for Posts");
+    // MOCK DATA corresponding to index.html section
+    const mockPosts = [
+      { _id: '1', title: 'New Yoga Batch', content: 'Join our morning freshness batch starting this Monday at 6:00 AM.', date: 'TODAY', image: 'assets/class-1.jpg' },
+      { _id: '2', title: 'Summer Sale - 20% OFF', content: 'Get flat 20% discount on Yearly Membership. Valid till sunday!', date: 'OFFER', image: 'assets/class-2.jpg' },
+      { _id: '3', title: 'Powerlifting Meet', content: 'Show your strength! Inter-gym competition this weekend.', date: 'EVENT', image: 'assets/class-3.jpg' }
+    ];
+    renderPosts(mockPosts);
+  }
+}
 
-    const container = document.getElementById('postsContainer');
-    container.innerHTML = '';
+function renderPosts(posts) {
+  const container = document.getElementById('postsContainer');
+  container.innerHTML = '';
 
-    posts.forEach(p => {
-      const div = document.createElement('div');
-      div.className = 'bg-[#111] border border-white/5 rounded-lg overflow-hidden group hover:border-[#32CD32]/50 transition-all';
-      div.innerHTML = `
-          ${p.image ? `<div class="h-48 overflow-hidden"><img src="${p.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/></div>` : ''}
-          <div class="p-6">
-            <div class="flex items-center justify-between mb-4">
-               <span class="text-xs text-[#32CD32] font-mono border border-[#32CD32]/20 px-2 py-1 rounded">NEWS</span>
-               <small class="text-gray-600 text-xs">${new Date(p.createdAt).toLocaleDateString()}</small>
+  posts.forEach(p => {
+    const div = document.createElement('div');
+    // Matching the style of index.html cards but with Edit actions
+    div.className = 'bg-[#111] border border-white/5 rounded-lg overflow-hidden group hover:border-[#FF4500]/50 transition-all shadow-lg flex flex-col';
+    div.innerHTML = `
+          <div class="h-48 overflow-hidden relative">
+            <img src="${p.image || 'assets/class-1.jpg'}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+            <div class="absolute top-2 right-2 bg-black/80 text-[#FF4500] text-[10px] font-bold px-2 py-1 rounded border border-[#FF4500]/20 uppercase">
+                ${p.date || 'UPDATE'}
             </div>
-            <p class="text-gray-300 text-sm mb-6 leading-relaxed">${p.textContent}</p>
-            <div class="flex justify-between items-center pt-4 border-t border-white/5">
-                <small class="text-gray-500">By <span class="text-white">${p.adminId ? p.adminId.username : 'Admin'}</span></small>
-                <button onclick="deletePost('${p._id}')" class="text-red-500 hover:text-red-400 text-xs uppercase font-bold tracking-wider flex items-center gap-1">
-                    <i data-lucide="trash" class="w-3 h-3"></i> Delete
+          </div>
+          <div class="p-5 flex-1 flex flex-col">
+            <h4 class="text-xl font-oswald text-white mb-2">${p.title || 'Untitled Post'}</h4>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4 flex-1">${p.content}</p>
+            <div class="flex items-center justify-between border-t border-white/10 pt-4 mt-auto">
+                <button class="text-xs text-gray-500 hover:text-white flex items-center gap-1">
+                    <i data-lucide="edit-3" class="w-3 h-3"></i> Edit
+                </button>
+                <button class="text-xs text-red-500/50 hover:text-red-500 flex items-center gap-1">
+                    <i data-lucide="trash-2" class="w-3 h-3"></i> Delete
                 </button>
             </div>
-          </div>`;
-      container.appendChild(div);
-    });
-    if (window.lucide) lucide.createIcons();
-  } catch (e) { console.error(e); }
+          </div>
+        `;
+    container.appendChild(div);
+  });
+  if (window.lucide) lucide.createIcons();
 }
+
+/* ---------- PRICING MANAGEMENT (New Feature) ---------- */
+// In a real app, this would fetch from a /settings API
+const pricingData = {
+  monthly: 1500,
+  yearly: 12000,
+  custom: 4000
+};
+
+// We'll inject a Pricing Section into the Profile Tab for now
+async function loadProfile() {
+  const section = document.getElementById('profile');
+  if (!section.querySelector('#pricingManager')) {
+    const div = document.createElement('div');
+    div.id = 'pricingManager';
+    div.className = 'mt-10 pt-10 border-t border-white/5';
+    div.innerHTML = `
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                     <h2 class="text-2xl font-oswald font-bold text-white uppercase mb-1">Membership Pricing</h2>
+                     <p class="text-xs text-gray-500 font-mono tracking-widest">UPDATE PLAN COSTS</p>
+                </div>
+                <button onclick="savePricing()" class="bg-[#FF4500] text-black font-bold text-xs px-4 py-2 rounded uppercase tracking-wider hover:bg-[#ff571a] transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(255,69,0,0.3)]">
+                    <i data-lucide="save" class="w-4 h-4"></i> Save Changes
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-[#111] p-6 rounded border border-white/5 hover:border-[#FF4500]/30 transition-colors">
+                    <label class="text-xs text-gray-500 uppercase tracking-widest block mb-2">Monthly Plan</label>
+                    <div class="flex items-center gap-2 border-b border-white/10 pb-2">
+                        <span class="text-xl font-oswald text-[#FF4500]">₹</span>
+                        <input type="number" id="priceMonthly" value="${pricingData.monthly}" class="bg-transparent border-none text-2xl font-bold text-white w-full focus:ring-0 p-0" />
+                    </div>
+                </div>
+                 <div class="bg-[#111] p-6 rounded border border-white/5 hover:border-[#FF4500]/30 transition-colors">
+                    <label class="text-xs text-gray-500 uppercase tracking-widest block mb-2">Yearly Plan</label>
+                    <div class="flex items-center gap-2 border-b border-white/10 pb-2">
+                        <span class="text-xl font-oswald text-[#FF4500]">₹</span>
+                        <input type="number" id="priceYearly" value="${pricingData.yearly}" class="bg-transparent border-none text-2xl font-bold text-white w-full focus:ring-0 p-0" />
+                    </div>
+                </div>
+                 <div class="bg-[#111] p-6 rounded border border-white/5 hover:border-[#FF4500]/30 transition-colors">
+                    <label class="text-xs text-gray-500 uppercase tracking-widest block mb-2">3 Months / Custom</label>
+                    <div class="flex items-center gap-2 border-b border-white/10 pb-2">
+                        <span class="text-xl font-oswald text-[#FF4500]">₹</span>
+                        <input type="number" id="priceCustom" value="${pricingData.custom}" class="bg-transparent border-none text-2xl font-bold text-white w-full focus:ring-0 p-0" />
+                    </div>
+                </div>
+            </div>
+        `;
+    section.appendChild(div);
+    if (window.lucide) lucide.createIcons();
+  }
+}
+
+window.savePricing = function () {
+  // In real app, sends PUT request to API
+  const newPrices = {
+    monthly: document.getElementById('priceMonthly').value,
+    yearly: document.getElementById('priceYearly').value,
+    custom: document.getElementById('priceCustom').value
+  };
+  console.log("Saving Prices:", newPrices);
+  alert("Pricing Updated Successfully!");
+};
 
 window.deletePost = async id => {
   if (!confirm('Delete this post?')) return;
