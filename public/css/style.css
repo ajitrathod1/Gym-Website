@@ -374,3 +374,10 @@
 .hidden {
   display: none;
 }
+
+/* Input Fields - Text Fix (Allow lowercase) */
+input,
+textarea,
+.auth-input {
+  text-transform: none !important;
+}

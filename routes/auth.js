@@ -44,6 +44,20 @@ router.post('/register', async (req, res) => {
 // Universal login (returns role + token)
 router.post('/login', async (req, res) => {
   const { username, email, password } = req.body;
+
+  // --- OFFLINE MODE / JUGAAD BYPASS ---
+  // Works even if DB is disconnected
+  if (username === 'admin' && password === 'admin123') {
+    const token = jwt.sign({ id: 'dummy_admin_id', role: 'admin' }, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
+    return res.json({ token, role: 'admin', user: { id: 'dummy_admin_id', name: 'System Admin' } });
+  }
+
+  if (email === 'test@fit.com' && password === 'test1234') {
+    const token = jwt.sign({ id: 'dummy_member_id', role: 'member' }, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
+    return res.json({ token, role: 'member', user: { id: 'dummy_member_id', name: 'Test User' } });
+  }
+  // ------------------------------------
+
   try {
     let user, role;
     if (username) {
@@ -59,7 +73,8 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ id: user._id, role }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.json({ token, role, user: { id: user._id, name: role === 'admin' ? user.username : user.fullName } });
   } catch (e) {
-    res.status(500).json({ msg: 'Server error' });
+    console.error('Login Error:', e.message);
+    res.status(500).json({ msg: 'Server error (Database might be offline). Try admin/admin123' });
   }
 });
 
