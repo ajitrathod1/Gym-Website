@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Join Now | BOOST FITNESS CLUB</title>
+  <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+  <nav class="nav" id="siteNav">
+    <a href="index.html" class="logo-link"><img src="assets/logo.png" alt="logo" class="logo"></a>
+  </nav>
+
+  <section class="section" style="max-width:420px;text-align:center;margin:auto;">
+    <h2>Join BOOST FITNESS CLUB</h2>
+    <p style="color:#ccc;">Fill your details and our team will reach out to confirm your membership.</p>
+
+    <form id="joinForm" class="contact-form" style="margin-top:2rem;">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="tel" name="phone" placeholder="Phone Number" required>
+      <input type="email" name="email" placeholder="Email (optional)">
+      <select name="plan" style="width:100%;padding:0.8rem;border-radius:8px;background:#0b0c0d;color:#fff;border:1px solid rgba(255,255,255,0.06);margin-bottom:1rem;">
+        <option value="">Select Plan</option>
+        <option>One Month - ₹1200</option>
+        <option>Three Months - ₹3000</option>
+        <option>Six Months - ₹5500</option>
+        <option>One Year - ₹10000</option>
+      </select>
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme">
+  <i class="ri-sun-line"></i>
+</button>
+      <button class="btn" type="submit">Submit</button>
+    </form>
+  </section>
+
+  <footer class="footer-bar">© <span id="yr"></span> BOOST FITNESS CLUB</footer>
+
+  <a href="https://wa.me/919449723066?text=Hi%20BOOST%20Fitness%20Club%20—%20I%20want%20to%20join"
+     class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+     <i class="ri-whatsapp-fill"></i>
+  </a>
+
+  <script src="scripts/main.js"></script>
+</body>
+</html>
