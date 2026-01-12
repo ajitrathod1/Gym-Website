@@ -30,7 +30,11 @@ sidebarLinks.forEach(link => {
     if (tabId === 'members') loadMembers();
     if (tabId === 'posts') loadPosts();
     if (tabId === 'payments') loadPayments();
-    if (tabId === 'profile') loadProfile();
+    if (tabId === 'attendance') loadAttendance();
+    if (tabId === 'profile') {
+      loadProfile();
+      loadPricing();
+    }
   });
 });
 
@@ -190,7 +194,7 @@ const pricingData = {
 };
 
 // We'll inject a Pricing Section into the Profile Tab for now
-async function loadProfile() {
+async function loadPricing() {
   const section = document.getElementById('profile');
   if (!section.querySelector('#pricingManager')) {
     const div = document.createElement('div');
@@ -281,6 +285,151 @@ async function loadPayments() {
   } catch (e) { console.error(e); }
 }
 
+/* ---------- ATTENDANCE ---------- */
+async function loadAttendance() {
+  try {
+    const tbody = document.querySelector('#attendanceTable tbody');
+    tbody.innerHTML = '';
+
+    const mockData = [
+      { id: 1, name: "Amit Sharma", time: "06:30 AM", type: "QR Scan", status: "On Time" },
+      { id: 2, name: "Sneha Gupta", time: "06:45 AM", type: "Manual", status: "Late" },
+      { id: 3, name: "Ramesh Powar", time: "07:00 AM", type: "QR Scan", status: "On Time" },
+      { id: 4, name: "Rahul Verma", time: "Yesterday", type: "QR Scan", status: "On Time" }
+    ];
+
+    // Check LocalStorage
+    const localAtt = JSON.parse(localStorage.getItem('attendance') || '[]');
+    if (localAtt.length > 0) {
+      const today = new Date().toLocaleDateString();
+      if (localAtt.includes(today)) {
+        mockData.unshift({ id: 'mock-123', name: "Test Member (You)", time: "Just Now", type: "QR Scan", status: "Active Now" });
+      }
+    }
+
+    mockData.forEach(m => {
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-white/5 transition-colors border-b border-white/5 cursor-pointer group';
+      tr.onclick = () => toggleHistory(tr, m); // Click to Expand
+
+      tr.innerHTML = `
+                <td class="p-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-[#32CD32]/20 text-[#32CD32] flex items-center justify-center font-bold text-xs border border-[#32CD32]/40 transition-transform group-hover:scale-110">
+                            ${m.name.charAt(0)}
+                        </div>
+                        <div>
+                            <span class="text-white font-bold text-sm block">${m.name}</span>
+                            <span class="text-[10px] text-gray-500 font-mono">Click to view history</span>
+                        </div>
+                    </div>
+                </td>
+                <td class="p-3 text-gray-400 font-mono text-xs">${m.time}</td>
+                <td class="p-3 text-gray-500 text-xs uppercase tracking-wider">${m.type}</td>
+                <td class="p-3 text-right">
+                    <span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest ${m.status === 'Late' ? 'bg-red-500/10 text-red-500 border border-red-500/20' : 'bg-[#32CD32]/10 text-[#32CD32] border border-[#32CD32]/20'}">
+                        ${m.status}
+                    </span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500 ml-2 inline transition-transform group-aria-expanded:rotate-180"></i>
+                </td>
+             `;
+      tbody.appendChild(tr);
+    });
+    if (window.lucide) lucide.createIcons();
+
+  } catch (e) { console.error(e); }
+}
+
+function toggleHistory(row, member) {
+  // Check if next row is already details
+  const nextRow = row.nextElementSibling;
+  if (nextRow && nextRow.classList.contains('detail-row')) {
+    nextRow.remove();
+    row.removeAttribute('aria-expanded');
+    return;
+  }
+
+  // Close other open rows (optional - single accordion feel)
+  const existing = document.querySelector('.detail-row');
+  if (existing) {
+    existing.previousElementSibling.removeAttribute('aria-expanded');
+    existing.remove();
+  }
+
+  row.setAttribute('aria-expanded', 'true');
+
+  // Create Detail Row
+  const tr = document.createElement('tr');
+  tr.className = 'detail-row bg-[#0a0a0a] animate-fade-in-up';
+
+  // Generate Mock Calendar History
+  let historyHtml = '<div class="grid grid-cols-7 gap-2 text-center">';
+  // Week Days Header
+  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  days.forEach(d => historyHtml += `<div class="text-[10px] text-gray-600 font-mono">${d}</div>`);
+
+  // 30 Days Grid
+  let presentCount = 0;
+  for (let i = 1; i <= 30; i++) {
+    const isPresent = Math.random() > 0.3;
+    if (isPresent) presentCount++;
+    const color = isPresent ? 'bg-green-500/20 text-green-500 border border-green-500/30' : 'bg-red-500/10 text-red-500 border border-red-500/20 opacity-50';
+    historyHtml += `
+            <div class="aspect-square flex items-center justify-center rounded text-xs font-bold ${color} hover:contrast-125 cursor-default group/day relative">
+                ${i}
+                <div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-black border border-white/20 text-[10px] text-white px-2 py-1 rounded opacity-0 group-hover/day:opacity-100 whitespace-nowrap z-10 pointer-events-none">
+                    ${isPresent ? 'Present (6:00 AM)' : 'Absent'}
+                </div>
+            </div>
+        `;
+  }
+  historyHtml += '</div>';
+
+  tr.innerHTML = `
+        <td colspan="4" class="p-6 border-b border-white/5 shadow-inner">
+            <div class="flex gap-8">
+                <!-- Monthly Stats -->
+                <div class="w-1/3">
+                    <h4 class="text-white font-oswald uppercase mb-4 text-lg">Monthly Report</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-2">
+                             <span class="text-gray-400">Total Days</span>
+                             <span class="text-white font-mono">30</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-2">
+                             <span class="text-gray-400">Present</span>
+                             <span class="text-green-400 font-mono">${presentCount}</span>
+                        </div>
+                         <div class="flex justify-between items-center text-sm border-b border-white/5 pb-2">
+                             <span class="text-gray-400">Absent</span>
+                             <span class="text-red-400 font-mono">${30 - presentCount}</span>
+                        </div>
+                         <div class="flex justify-between items-center text-sm pt-2">
+                             <span class="text-gray-400">Attendance Rate</span>
+                             <span class="text-[#FF4500] font-bold font-mono">${Math.round((presentCount / 30) * 100)}%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar Grid -->
+                <div class="w-2/3 border-l border-white/5 pl-8">
+                    <div class="flex justify-between items-end mb-4">
+                        <span class="text-xs text-gray-500 uppercase tracking-widest">January 2026</span>
+                        <div class="flex gap-3 text-[10px]">
+                            <span class="flex items-center text-gray-500"><div class="w-2 h-2 rounded-full bg-green-500 mr-1"></div> Present</span>
+                            <span class="flex items-center text-gray-500"><div class="w-2 h-2 rounded-full bg-red-500 mr-1"></div> Absent</span>
+                        </div>
+                    </div>
+                    ${historyHtml}
+                </div>
+            </div>
+        </td>
+    `;
+
+  row.after(tr);
+  if (window.lucide) lucide.createIcons();
+}
+
 /* ---------- PROFILE ---------- */
 async function loadProfile() {
   try {
@@ -299,13 +448,48 @@ async function loadProfile() {
 
 /* ---------- FORMS ---------- */
 // Add Member
+// Add Member (Dynamic Mock)
 document.getElementById('memberModalForm').addEventListener('submit', async e => {
   e.preventDefault();
-  // Simulate Success
-  alert("Member Added Successfully! (Demo)");
+  const formData = new FormData(e.target);
+
+  // Construct new member object
+  const newMember = {
+    _id: 'new-' + Date.now(),
+    fullName: formData.get('fullName'),
+    phone: formData.get('phone'),
+    joiningDate: new Date(formData.get('joinDate')),
+    subscriptionPlan: formData.get('plan'),
+    amount: formData.get('amount'),
+    remainingDays: 30,
+    profilePicture: null
+  };
+
+  // Close Modal
   document.getElementById('memberModal').classList.add('hidden');
   document.getElementById('memberModal').classList.remove('flex');
-  loadMembers(); // Reload mock list
+  e.target.reset();
+
+  // Add to Table UI directly
+  const tbody = document.querySelector('#membersTable tbody');
+  const tr = document.createElement('tr');
+  tr.className = 'hover:bg-white/5 transition-colors border-b border-white/5 animate-fade-in-up';
+  tr.innerHTML = `
+    <td class="p-4"><img src="https://i.pravatar.cc/150?u=${newMember._id}" class="w-10 h-10 rounded-full border border-white/20 object-cover"></td>
+    <td class="p-4 font-bold text-white">${newMember.fullName}</td>
+    <td class="p-4 text-gray-500 font-mono">${newMember.phone}</td>
+    <td class="p-4 text-gray-400">${newMember.joiningDate.toLocaleDateString()}</td>
+    <td class="p-4"><span class="px-2 py-0.5 bg-[#FF4500]/10 text-[#FF4500] text-xs rounded border border-[#FF4500]/20">${newMember.subscriptionPlan}</span></td>
+    <td class="p-4 text-white font-mono">₹${newMember.amount}</td>
+    <td class="p-4 text-green-400">30 Days</td>
+    <td class="p-4 text-right">
+      <button class="text-blue-400 hover:text-blue-300 mr-3"><i data-lucide="calendar-plus" class="w-4 h-4"></i></button>
+      <button class="text-red-500 hover:text-red-400"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+    </td>`;
+  tbody.prepend(tr);
+
+  alert("✅ Member Added Successfully!");
+  if (window.lucide) lucide.createIcons();
 });
 
 // Add Post

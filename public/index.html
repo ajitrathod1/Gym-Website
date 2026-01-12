@@ -41,10 +41,10 @@
             
             <div class="hidden md:flex items-center gap-8">
                 <a href="#home" class="text-sm font-medium text-gray-400 hover:text-[#32CD32] transition-colors tracking-wide uppercase">Home</a>
-                <a href="#programs" class="text-sm font-medium text-gray-400 hover:text-[#32CD32] transition-colors tracking-wide uppercase">Programs</a>
-                <a href="#services" class="text-sm font-medium text-gray-400 hover:text-[#32CD32] transition-colors tracking-wide uppercase">Services</a>
                 <a href="#about" class="text-sm font-medium text-gray-400 hover:text-[#32CD32] transition-colors tracking-wide uppercase">About</a>
-                <!-- Added Link to Login -->
+                <a href="#services" class="text-sm font-medium text-gray-400 hover:text-[#32CD32] transition-colors tracking-wide uppercase">Services</a>
+                <a href="#programs" class="text-sm font-medium text-gray-400 hover:text-[#32CD32] transition-colors tracking-wide uppercase">Programs</a>
+<!-- Added Link to Login -->
                 <a href="login.html" class="text-sm font-medium text-gray-400 hover:text-[#32CD32] transition-colors tracking-wide uppercase">Member Login</a>
             </div>
 
@@ -128,37 +128,86 @@
         </div>
     </div>
 
-    <!-- About Section -->
-    <section id="about" class="py-24 px-6 relative">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-6">
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-semibold tracking-tight uppercase mb-2 font-oswald">About Us</h2>
-                    <p class="text-gray-400 max-w-2xl">Established in Vijayapur, dedicated to transforming lives through world-class fitness.</p>
+    <!-- About Section (New) -->
+    <section id="about" class="py-24 px-6 relative bg-[#0F0F0F] overflow-hidden">
+        <!-- Background Text -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-[0.03] pointer-events-none flex items-center justify-center">
+            <span class="text-[20vw] font-bold font-oswald text-white whitespace-nowrap">EST. 2023</span>
+        </div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <!-- Text Content -->
+                <div class="order-2 md:order-1">
+                     <div class="flex flex-col items-start gap-4 mb-8">
+                         <span class="text-[#32CD32] text-sm font-bold uppercase tracking-[0.2em] animate-pulse"> /// Since 2023</span>
+                         <h2 class="text-4xl md:text-6xl font-black italic uppercase font-oswald text-white leading-tight">
+                            About <span class="text-outline-stroke text-[#32CD32]" style="-webkit-text-stroke: 1px #32CD32; color: transparent;">The Club</span>
+                         </h2>
+                    </div>
+                    
+                    <p class="text-gray-400 text-lg leading-relaxed mb-6 font-light">
+                        <strong class="text-white">Boost Fitness Club</strong> is Vijayapur's answer to world-class fitness. We didn't just build a gym; we built a sanctuary for those who refuse to settle for average. 
+                    </p>
+                    <p class="text-gray-400 text-lg leading-relaxed mb-8 font-light">
+                        Located on Solapur Road, our 5000 sq.ft. facility combines raw, old-school bodybuilding heritage with cutting-edge biomechanics. Whether you're a competitive athlete or a beginner taking your first step, this is where your potential meets its match.
+                    </p>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-6 border-t border-white/10 pt-8">
+                        <div>
+                            <span class="block text-3xl font-bold font-oswald text-white mb-1">2000+</span>
+                            <span class="text-xs text-[#32CD32] font-mono uppercase tracking-widest">Members</span>
+                        </div>
+                        <div>
+                            <span class="block text-3xl font-bold font-oswald text-white mb-1">15+</span>
+                            <span class="text-xs text-[#32CD32] font-mono uppercase tracking-widest">Trainers</span>
+                        </div>
+                         <div>
+                            <span class="block text-3xl font-bold font-oswald text-white mb-1">24/7</span>
+                            <span class="text-xs text-[#32CD32] font-mono uppercase tracking-widest">Access</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2 text-[#32CD32] bg-[#32CD32]/10 px-4 py-2 rounded border border-[#32CD32]/20 mt-4 md:mt-0">
-                    <span class="relative flex h-3 w-3">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#32CD32] opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-3 w-3 bg-[#32CD32]"></span>
-                    </span>
-                    <span class="text-xs font-mono font-bold uppercase tracking-wider">Status: Open</span>
+
+                <!-- Visuals -->
+                <div class="order-1 md:order-2 relative group">
+                    <div class="absolute inset-0 bg-[#32CD32] rounded-sm transform translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
+                    <div class="relative rounded-sm overflow-hidden h-[500px] border border-white/10">
+                        <img src="assets/gallery3.png" alt="Gym Interior" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                    </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Bento Grid Mapped to Services -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="services">
+    <!-- Services Section (Formerly 'About' content) -->
+    <section id="services" class="py-24 px-6 relative bg-[#0A0A0A]">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col items-center text-center mb-16 gap-4">
+                 <span class="text-[#FF4500] text-sm font-bold uppercase tracking-[0.2em] animate-pulse"> /// Amenities</span>
+                 <h2 class="text-4xl md:text-6xl font-black italic uppercase font-oswald text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
+                    Premium <span class="text-outline-stroke text-[#FF4500]" style="-webkit-text-stroke: 1px #FF4500; color: transparent;">Facilities</span>
+                 </h2>
+                 <p class="text-gray-400 max-w-2xl text-lg font-light">
+                    Everything you need to perform at your peak level.
+                 </p>
+            </div>
+
+            <!-- Bento Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Large Card -->
                 <div class="md:col-span-2 relative group overflow-hidden rounded-sm border border-white/10 bg-white/5 h-[400px]">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
                     <!-- Abstract geometric bg -->
                     <div class="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700">
-                        <img src="assets/gallery3.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Gym Interior">
+                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Gym Interior">
                     </div>
                     <div class="absolute bottom-0 left-0 p-8 z-20">
                         <div class="text-[#FF4500] mb-2"><i data-lucide="dumbbell" class="w-8 h-8"></i></div>
-                        <h3 class="text-3xl font-semibold uppercase tracking-tight mb-2 font-oswald">Body Building</h3>
+                        <h3 class="text-3xl font-semibold uppercase tracking-tight mb-2 font-oswald">Modern Equipment</h3>
                         <p class="text-gray-400 max-w-md text-sm leading-relaxed">
-                            Professional equipment aur trainers ke sath muscle building program. Build your legacy.
+                            Imported biomechanical machines designed to target every muscle fiber accurately.
                         </p>
                     </div>
                 </div>
@@ -168,12 +217,12 @@
                     <div class="absolute inset-0 bg-gradient-to-b from-[#32CD32]/5 to-transparent"></div>
                     <div class="p-8 h-full flex flex-col justify-between relative z-10">
                         <div class="flex justify-between items-start">
-                            <i data-lucide="heart-pulse" class="w-8 h-8 text-[#32CD32]"></i>
-                            <span class="text-xs font-mono text-gray-500">CARDIO</span>
+                            <i data-lucide="wind" class="w-8 h-8 text-[#32CD32]"></i>
+                            <span class="text-xs font-mono text-gray-500">RECOVERY</span>
                         </div>
                         <div>
-                            <h3 class="text-3xl font-semibold uppercase tracking-tight mb-2 font-oswald">Fat Loss</h3>
-                            <p class="text-gray-400 text-sm">Targeted cardio + diet plans to reduce body fat safely.</p>
+                            <h3 class="text-3xl font-semibold uppercase tracking-tight mb-2 font-oswald">Steam & Sauna</h3>
+                            <p class="text-gray-400 text-sm">Post-workout recovery zone to detox and relax muscles.</p>
                         </div>
                     </div>
                     <div class="absolute inset-0 border border-[#32CD32]/0 group-hover:border-[#32CD32]/50 transition-colors duration-300"></div>
@@ -183,24 +232,24 @@
                 <div class="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
                      <div class="p-6 border border-white/10 bg-white/5 hover:bg-white/10 transition-colors cursor-pointer group">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="text-xl font-semibold uppercase text-gray-200 font-oswald">Weight Training</h4>
-                            <i data-lucide="hammer" class="w-5 h-5 text-gray-500 group-hover:text-blue-400 transition-colors"></i>
+                            <h4 class="text-xl font-semibold uppercase text-gray-200 font-oswald">Biomechanics Lab</h4>
+                            <i data-lucide="activity" class="w-5 h-5 text-gray-500 group-hover:text-blue-400 transition-colors"></i>
                         </div>
-                        <p class="text-xs text-gray-500">Guided strength workouts.</p>
+                        <p class="text-xs text-gray-500">Advanced body composition analysis.</p>
                      </div>
                      <div class="p-6 border border-white/10 bg-white/5 hover:bg-white/10 transition-colors cursor-pointer group">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="text-xl font-semibold uppercase text-gray-200 font-oswald">Diet Nutrition</h4>
-                            <i data-lucide="utensils" class="w-5 h-5 text-gray-500 group-hover:text-[#32CD32] transition-colors"></i>
+                            <h4 class="text-xl font-semibold uppercase text-gray-200 font-oswald">Nutrition Bar</h4>
+                            <i data-lucide="coffee" class="w-5 h-5 text-gray-500 group-hover:text-[#32CD32] transition-colors"></i>
                         </div>
-                        <p class="text-xs text-gray-500">Balanced meal planning.</p>
+                        <p class="text-xs text-gray-500">Healthy shakes & supplements.</p>
                      </div>
                      <div class="p-6 border border-white/10 bg-white/5 hover:bg-white/10 transition-colors cursor-pointer group">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="text-xl font-semibold uppercase text-gray-200 font-oswald">Personal Training</h4>
-                            <i data-lucide="user-check" class="w-5 h-5 text-gray-500 group-hover:text-[#FF4500] transition-colors"></i>
+                            <h4 class="text-xl font-semibold uppercase text-gray-200 font-oswald">Valet Parking</h4>
+                            <i data-lucide="car" class="w-5 h-5 text-gray-500 group-hover:text-[#FF4500] transition-colors"></i>
                         </div>
-                        <p class="text-xs text-gray-500">1-on-1 with certified experts.</p>
+                        <p class="text-xs text-gray-500">Hassle-free secure parking.</p>
                      </div>
                 </div>
             </div>
@@ -209,106 +258,201 @@
 
     <!-- Services (Public Posts Placeholder for Backend) -->
     <!-- We inject this div so backend posts have a place to load if script runs, but we might need to style it for Tailwind -->
-    <div id="homePosts" class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 py-12"></div>
+
 
 
     <!-- Programs Static Section -->
     <section id="programs" class="py-24 px-6 max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold tracking-tight uppercase mb-8 font-oswald text-white text-left reveal">
-            EXPLORE OUR PROGRAMS
-        </h2>
+        <div class="flex flex-col items-center text-center mb-16 gap-4">
+             <span class="text-[#FF4500] text-sm font-bold uppercase tracking-[0.2em] animate-pulse"> /// Our Protocols</span>
+             <h2 class="text-4xl md:text-6xl font-black italic uppercase font-oswald text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
+                Explore <span class="text-outline-stroke text-[#FF4500]" style="-webkit-text-stroke: 1px #FF4500; color: transparent;">Programs</span>
+             </h2>
+        </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Card 1: Strength -->
-            <div class="bg-[#1f1f1f] rounded-2xl p-8 flex flex-col items-start text-left min-h-[300px] hover:bg-[#2a2a2a] transition-colors duration-300 reveal delay-100">
-                <div class="w-10 h-10 bg-[#FF4500] rounded-lg flex items-center justify-center mb-6 shadow-lg shadow-orange-500/20">
-                    <!-- Simple dot or icon -->
-                    <div class="w-3 h-3 bg-white rounded-full"></div> 
+            <div class="group relative h-[450px] overflow-hidden rounded-sm border border-white/10 hover:border-[#FF4500] transition-colors duration-500 cursor-pointer">
+                <!-- BG Image -->
+                <div class="absolute inset-0">
+                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                 </div>
-                <h3 class="text-xl font-bold text-white mb-4">Strength</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Barbell, dumbbell aur resistance workouts for muscle growth & power.
-                </p>
+
+                <!-- Content -->
+                <div class="absolute bottom-0 left-0 p-8 w-full z-10 flex flex-col justify-end h-full">
+                     <div class="w-12 h-12 bg-[#FF4500] rounded-lg flex items-center justify-center mb-6 shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform">
+                        <i data-lucide="dumbbell" class="w-6 h-6 text-black fill-black"></i>
+                    </div>
+                    <div class="w-12 h-1 bg-[#FF4500] mb-4 w-0 group-hover:w-full transition-all duration-700"></div>
+                    <h3 class="text-3xl font-bold text-white mb-2 font-oswald uppercase italic">Strength</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        Barbell, dumbbell aur resistance workouts for muscle growth & power.
+                    </p>
+                </div>
             </div>
 
             <!-- Card 2: Cardio -->
-            <div class="bg-[#1f1f1f] rounded-2xl p-8 flex flex-col items-start text-left min-h-[300px] hover:bg-[#2a2a2a] transition-colors duration-300 reveal delay-200">
-                <div class="w-10 h-10 bg-[#FF4500] rounded-lg flex items-center justify-center mb-6 shadow-lg shadow-orange-500/20">
-                    <i data-lucide="heart-pulse" class="w-5 h-5 text-white"></i>
+            <div class="group relative h-[450px] overflow-hidden rounded-sm border border-white/10 hover:border-[#32CD32] transition-colors duration-500 cursor-pointer">
+                <div class="absolute inset-0">
+                    <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=2069&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                 </div>
-                <h3 class="text-xl font-bold text-white mb-4">Cardio</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    HIIT aur endurance sessions for fat loss & stamina.
-                </p>
+
+                <div class="absolute bottom-0 left-0 p-8 w-full z-10 flex flex-col justify-end h-full">
+                     <div class="w-12 h-12 bg-[#32CD32] rounded-lg flex items-center justify-center mb-6 shadow-lg shadow-green-500/20 group-hover:scale-110 transition-transform">
+                        <i data-lucide="heart-pulse" class="w-6 h-6 text-black fill-black"></i>
+                    </div>
+                    <div class="w-12 h-1 bg-[#32CD32] mb-4 w-0 group-hover:w-full transition-all duration-700"></div>
+                    <h3 class="text-3xl font-bold text-white mb-2 font-oswald uppercase italic">Cardio</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        HIIT aur endurance sessions for fat loss & stamina.
+                    </p>
+                </div>
             </div>
 
             <!-- Card 3: Fat Loss -->
-            <div class="bg-[#1f1f1f] rounded-2xl p-8 flex flex-col items-start text-left min-h-[300px] hover:bg-[#2a2a2a] transition-colors duration-300 reveal delay-300">
-                <div class="w-10 h-10 bg-[#FF4500] rounded-lg flex items-center justify-center mb-6 shadow-lg shadow-orange-500/20">
-                    <i data-lucide="flame" class="w-5 h-5 text-white"></i>
+            <div class="group relative h-[450px] overflow-hidden rounded-sm border border-white/10 hover:border-[#FF4500] transition-colors duration-500 cursor-pointer">
+                <div class="absolute inset-0">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                 </div>
-                <h3 class="text-xl font-bold text-white mb-4">Fat Loss</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Custom diet + workouts to burn fat safely.
-                </p>
+
+                <div class="absolute bottom-0 left-0 p-8 w-full z-10 flex flex-col justify-end h-full">
+                     <div class="w-12 h-12 bg-[#FF4500] rounded-lg flex items-center justify-center mb-6 shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform">
+                        <i data-lucide="flame" class="w-6 h-6 text-black fill-black"></i>
+                    </div>
+                    <div class="w-12 h-1 bg-[#FF4500] mb-4 w-0 group-hover:w-full transition-all duration-700"></div>
+                    <h3 class="text-3xl font-bold text-white mb-2 font-oswald uppercase italic">Fat Loss</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        Custom diet + workouts to burn fat safely.
+                    </p>
+                </div>
             </div>
 
             <!-- Card 4: Weight Gain -->
-            <div class="bg-[#1f1f1f] rounded-2xl p-8 flex flex-col items-start text-left min-h-[300px] hover:bg-[#2a2a2a] transition-colors duration-300 reveal delay-300">
-                <div class="w-10 h-10 bg-[#FF4500] rounded-lg flex items-center justify-center mb-6 shadow-lg shadow-orange-500/20">
-                    <i data-lucide="utensils" class="w-5 h-5 text-white"></i>
+            <div class="group relative h-[450px] overflow-hidden rounded-sm border border-white/10 hover:border-[#32CD32] transition-colors duration-500 cursor-pointer">
+                <div class="absolute inset-0">
+                    <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                 </div>
-                <h3 class="text-xl font-bold text-white mb-4">Weight Gain</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Healthy mass gain plans with nutrition guidance.
-                </p>
+
+                <div class="absolute bottom-0 left-0 p-8 w-full z-10 flex flex-col justify-end h-full">
+                     <div class="w-12 h-12 bg-[#32CD32] rounded-lg flex items-center justify-center mb-6 shadow-lg shadow-green-500/20 group-hover:scale-110 transition-transform">
+                        <i data-lucide="utensils" class="w-6 h-6 text-black fill-black"></i>
+                    </div>
+                    <div class="w-12 h-1 bg-[#32CD32] mb-4 w-0 group-hover:w-full transition-all duration-700"></div>
+                    <h3 class="text-3xl font-bold text-white mb-2 font-oswald uppercase italic">Weight Gain</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        Healthy mass gain plans with nutrition guidance.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
     
     <!-- Trainers -->
-    <section id="trainers" class="py-24 bg-[#0A0A0A]">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col items-start mb-16">
-                 <span class="text-[#FF4500] text-xs font-bold uppercase tracking-[0.2em] mb-2">System Operators</span>
-                 <h2 class="text-4xl md:text-5xl font-semibold tracking-tight uppercase font-oswald">Our Trainers</h2>
+    <section id="trainers" class="py-24 bg-[#0A0A0A] relative">
+        <!-- Background Decor -->
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none"></div>
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#FF4500]/5 to-transparent pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="flex flex-col items-center text-center mb-20 gap-4">
+                 <span class="text-[#FF4500] text-sm font-bold uppercase tracking-[0.2em] animate-pulse"> /// Elite Coaching Staff</span>
+                 <h2 class="text-4xl md:text-6xl font-black italic uppercase font-oswald text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
+                    Meet The <span class="text-outline-stroke text-[#FF4500]" style="-webkit-text-stroke: 1px #FF4500; color: transparent;">Architects</span>
+                 </h2>
+                 <p class="text-gray-400 max-w-2xl text-lg font-light">
+                    Our certified trainers don't just count reps; they engineer your transformation. With over <span class="text-white font-bold">20+ years</span> of combined experience.
+                 </p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Trainer 1 -->
-                <div class="group relative bg-[#111] border border-white/5 hover:border-[#FF4500] transition-colors duration-300">
-                    <div class="aspect-[3/4] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500 relative">
-                        <img src="assets/trainer1.png" alt="Ramesh" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                        <div class="absolute bottom-4 left-4 right-4">
-                            <h3 class="text-2xl font-bold uppercase text-white mb-1 font-oswald">Ramesh</h3>
-                            <p class="text-[#FF4500] text-xs font-mono uppercase tracking-widest mb-4">Strength Coach</p>
+                <div class="group relative h-[450px] bg-[#111] overflow-hidden rounded-sm cursor-pointer border border-white/5 hover:border-[#FF4500] transition-all duration-500">
+                    <!-- Image -->
+                    <div class="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <img src="assets/trainer1.png" alt="Ramesh" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <!-- Overlay Gradient -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                    
+                    <!-- Content -->
+                    <div class="absolute bottom-0 left-0 w-full p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="w-12 h-1 bg-[#FF4500] mb-4 w-0 group-hover:w-12 transition-all duration-500 delay-100"></div>
+                        <h3 class="text-3xl font-bold uppercase text-white mb-1 font-oswald italic">Ramesh Shinde</h3>
+                        <p class="text-[#FF4500] text-xs font-mono uppercase tracking-widest mb-4">Head Coach / Bodybuilding</p>
+                        
+                        <!-- Hidden Details -->
+                        <div class="h-0 group-hover:h-auto overflow-hidden opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200">
+                            <p class="text-gray-300 text-xs text-sm mb-4">"Pain is temporary, pride is forever. Let's build your legacy together."</p>
+                            <div class="flex gap-4">
+                                <a href="#" class="text-white hover:text-[#FF4500]"><i class="ri-instagram-line"></i></a>
+                                <a href="#" class="text-white hover:text-[#FF4500]"><i class="ri-facebook-fill"></i></a>
+                                <a href="#" class="text-white hover:text-[#FF4500]"><i class="ri-whatsapp-line"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Trainer 2 -->
-                <div class="group relative bg-[#111] border border-white/5 hover:border-[#32CD32] transition-colors duration-300">
-                    <div class="aspect-[3/4] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500 relative">
-                        <img src="assets/trainer2.png" alt="Sneha" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                        <div class="absolute bottom-4 left-4 right-4">
-                            <h3 class="text-2xl font-bold uppercase text-white mb-1 font-oswald">Sneha</h3>
-                            <p class="text-[#32CD32] text-xs font-mono uppercase tracking-widest mb-4">HIIT Specialist</p>
+                <div class="group relative h-[450px] bg-[#111] overflow-hidden rounded-sm cursor-pointer border border-white/5 hover:border-[#32CD32] transition-all duration-500">
+                    <div class="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-700">
+                         <!-- Placeholder if image missing -->
+                        <img src="assets/trainer2.png" alt="Sneha" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-700"
+                        onerror="this.src='https://images.unsplash.com/photo-1620188467120-5042ed1af5b7?q=80&w=1974&auto=format&fit=crop'">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                         <div class="w-12 h-1 bg-[#32CD32] mb-4 w-0 group-hover:w-12 transition-all duration-500 delay-100"></div>
+                        <h3 class="text-3xl font-bold uppercase text-white mb-1 font-oswald italic">Sneha Gupta</h3>
+                        <p class="text-[#32CD32] text-xs font-mono uppercase tracking-widest mb-4">HIIT & Functional </p>
+                        
+                        <div class="h-0 group-hover:h-auto overflow-hidden opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200">
+                            <p class="text-gray-300 text-xs text-sm mb-4">"Fitness is not about being better than someone else, it's about being better than you were yesterday."</p>
+                            <div class="flex gap-4">
+                                <a href="#" class="text-white hover:text-[#32CD32]"><i class="ri-instagram-line"></i></a>
+                                <a href="#" class="text-white hover:text-[#32CD32]"><i class="ri-twitter-x-line"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Trainer 3 -->
-                <div class="group relative bg-[#111] border border-white/5 hover:border-blue-500 transition-colors duration-300">
-                    <div class="aspect-[3/4] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500 relative">
-                        <img src="assets/trainer3.png" alt="Amit" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                        <div class="absolute bottom-4 left-4 right-4">
-                            <h3 class="text-2xl font-bold uppercase text-white mb-1 font-oswald">Amit</h3>
-                            <p class="text-blue-500 text-xs font-mono uppercase tracking-widest mb-4">Yoga & Recovery</p>
+                <div class="group relative h-[450px] bg-[#111] overflow-hidden rounded-sm cursor-pointer border border-white/5 hover:border-blue-500 transition-all duration-500">
+                    <div class="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <img src="assets/trainer3.png" alt="Amit" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-700"
+                        onerror="this.src='https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop'">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="w-12 h-1 bg-blue-500 mb-4 w-0 group-hover:w-12 transition-all duration-500 delay-100"></div>
+                        <h3 class="text-3xl font-bold uppercase text-white mb-1 font-oswald italic">Amit Patel</h3>
+                        <p class="text-blue-500 text-xs font-mono uppercase tracking-widest mb-4">Yoga & Recovery</p>
+                        
+                         <div class="h-0 group-hover:h-auto overflow-hidden opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200">
+                            <p class="text-gray-300 text-xs text-sm mb-4">"Balance is the key to strength. Recovery is where the growth happens."</p>
+                            <div class="flex gap-4">
+                                <a href="#" class="text-white hover:text-blue-500"><i class="ri-instagram-line"></i></a>
+                                <a href="#" class="text-white hover:text-blue-500"><i class="ri-linkedin-fill"></i></a>
+                            </div>
                         </div>
                     </div>
+                </div>
+
+                 <!-- Trainer 4 (Join Team) -->
+                 <div class="group relative h-[450px] bg-[#0F0F0F] overflow-hidden rounded-sm cursor-pointer border border-dashed border-white/10 hover:border-[#FF4500] transition-all duration-500 flex flex-col items-center justify-center text-center p-8">
+                     <div class="w-20 h-20 rounded-full bg-[#1a1a1a] flex items-center justify-center mb-6 group-hover:bg-[#FF4500] transition-colors duration-500">
+                         <i data-lucide="plus" class="w-10 h-10 text-white"></i>
+                     </div>
+                     <h3 class="text-2xl font-bold uppercase text-white mb-2 font-oswald">Join The Team</h3>
+                     <p class="text-gray-500 text-sm mb-6">Are you a certified trainer with a passion to change lives?</p>
+                     <a href="#contact" class="px-6 py-2 border border-[#FF4500] text-[#FF4500] text-xs font-bold uppercase tracking-widest hover:bg-[#FF4500] hover:text-black transition-all">
+                         Apply Now
+                     </a>
                 </div>
             </div>
         </div>
@@ -438,54 +582,104 @@
         </div>
     </div>
 
-    <!-- LATEST NEWS & OFFERS (Dynamic Feed) -->
-    <section class="section" id="news">
-      <div class="section__container">
-        <h2 class="section__header">LATEST <span class="highlight">UPDATES</span></h2>
-        <p class="section__subheader">Stay tuned with our latest announcements, offers, and events.</p>
+    <!-- LATEST NEWS & OFFERS -->
+    <section id="news" class="py-24 bg-[#0A0A0A] relative">
+        <!-- Background Decor -->
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none"></div>
         
-        <div class="news__grid" id="publicNewsContainer">
-            <!-- Posts will be injected here via JS -->
-            <div class="news__card">
-                <div class="news__image">
-                    <img src="assets/class-1.jpg" alt="news">
-                </div>
-                <div class="news__content">
-                    <span class="news__date">TODAY</span>
-                    <h4>New Yoga Batch</h4>
-                    <p>Join our morning freshness batch starting this Monday at 6:00 AM.</p>
-                </div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <!-- Header -->
+            <div class="flex flex-col items-center text-center mb-20 gap-4">
+                 <span class="text-[#32CD32] text-sm font-bold uppercase tracking-[0.2em] animate-pulse"> /// Gym Bulletin</span>
+                 <h2 class="text-4xl md:text-6xl font-black italic uppercase font-oswald text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
+                    Latest <span class="text-outline-stroke text-[#32CD32]" style="-webkit-text-stroke: 1px #32CD32; color: transparent;">Intel</span>
+                 </h2>
+                 <p class="text-gray-400 max-w-2xl text-lg font-light">
+                    Stay updated with exclusive offers, events, and community news.
+                 </p>
             </div>
-            <div class="news__card">
-                 <div class="news__image">
-                    <img src="assets/class-2.jpg" alt="news">
-                </div>
-                <div class="news__content">
-                    <span class="news__date">OFFER</span>
-                    <h4>Summer Sale - 20% OFF</h4>
-                    <p>Get flat 20% discount on Yearly Membership. Valid till sunday!</p>
-                </div>
-            </div>
-             <div class="news__card">
-                 <div class="news__image">
-                    <img src="assets/class-3.jpg" alt="news">
-                </div>
-                <div class="news__content">
-                    <span class="news__date">EVENT</span>
-                    <h4>Powerlifting Meet</h4>
-                    <p>Show your strength! Inter-gym competition this weekend.</p>
-                </div>
+
+            <!-- Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="publicNewsContainer">
+                 <!-- Card 1 -->
+                 <div class="group relative bg-[#111] overflow-hidden rounded-sm cursor-pointer border border-white/5 hover:border-[#32CD32] transition-all duration-500 flex flex-col h-[450px]">
+                    <!-- Image Container -->
+                    <div class="h-1/2 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-black/20 z-10 group-hover:bg-transparent transition-colors"></div>
+                        <img src="assets/class-1.jpg" alt="News" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0">
+                        <!-- Date Badge -->
+                        <div class="absolute top-4 right-4 z-20 bg-black/80 backdrop-blur border border-[#32CD32]/30 text-[#32CD32] text-[10px] font-bold px-3 py-1 uppercase tracking-widest rounded-full">
+                            Today
+                        </div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="p-8 flex-1 flex flex-col relative">
+                         <!-- Progress Line -->
+                         <div class="w-12 h-1 bg-[#32CD32] mb-4 w-0 group-hover:w-full transition-all duration-700"></div>
+                         
+                         <h3 class="text-2xl font-bold uppercase text-white mb-2 font-oswald italic group-hover:text-[#32CD32] transition-colors">New Yoga Batch</h3>
+                         <p class="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3">Join our morning freshness batch starting this Monday at 6:00 AM. Start your day with mindfulness.</p>
+                         
+                         <!-- Action -->
+                         <div class="mt-auto opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+                             <span class="text-xs font-bold uppercase tracking-widest text-[#32CD32] flex items-center gap-2">Read Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                         </div>
+                    </div>
+                 </div>
+                 
+                 <!-- Card 2 -->
+                 <div class="group relative bg-[#111] overflow-hidden rounded-sm cursor-pointer border border-white/5 hover:border-[#FF4500] transition-all duration-500 flex flex-col h-[450px]">
+                    <div class="h-1/2 overflow-hidden relative">
+                        <img src="assets/class-2.jpg" alt="News" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0">
+                        <div class="absolute top-4 right-4 z-20 bg-black/80 backdrop-blur border border-[#FF4500]/30 text-[#FF4500] text-[10px] font-bold px-3 py-1 uppercase tracking-widest rounded-full">
+                            Limited Offer
+                        </div>
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col relative">
+                         <div class="w-12 h-1 bg-[#FF4500] mb-4 w-0 group-hover:w-full transition-all duration-700"></div>
+                         
+                         <h3 class="text-2xl font-bold uppercase text-white mb-2 font-oswald italic group-hover:text-[#FF4500] transition-colors">Summer Sale</h3>
+                         <p class="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3">Get flat 20% discount on Yearly Membership. This offer is valid only till Sunday. Don't miss out!</p>
+                         
+                         <div class="mt-auto opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+                             <span class="text-xs font-bold uppercase tracking-widest text-[#FF4500] flex items-center gap-2">Claim Now <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                         </div>
+                    </div>
+                 </div>
+
+                 <!-- Card 3 -->
+                 <div class="group relative bg-[#111] overflow-hidden rounded-sm cursor-pointer border border-white/5 hover:border-blue-500 transition-all duration-500 flex flex-col h-[450px]">
+                    <div class="h-1/2 overflow-hidden relative">
+                        <img src="assets/class-3.jpg" alt="News" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0">
+                        <div class="absolute top-4 right-4 z-20 bg-black/80 backdrop-blur border border-blue-500/30 text-blue-500 text-[10px] font-bold px-3 py-1 uppercase tracking-widest rounded-full">
+                            Event
+                        </div>
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col relative">
+                         <div class="w-12 h-1 bg-blue-500 mb-4 w-0 group-hover:w-full transition-all duration-700"></div>
+                         
+                         <h3 class="text-2xl font-bold uppercase text-white mb-2 font-oswald italic group-hover:text-blue-500 transition-colors">Powerlifting Meet</h3>
+                         <p class="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3">Show your strength! Inter-gym competition this weekend. Prizes worth ₹50,000 to be won.</p>
+                         
+                         <div class="mt-auto opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+                             <span class="text-xs font-bold uppercase tracking-widest text-blue-500 flex items-center gap-2">Register <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                         </div>
+                    </div>
+                 </div>
             </div>
         </div>
-      </div>
     </section>
 
     <!-- Pricing Section -->
     <section id="pricing" class="py-24 bg-[#0F0F0F] relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <h2 class="text-4xl md:text-5xl font-semibold tracking-tight uppercase text-center mb-16 font-oswald reveal">
-                Our Pricing
-            </h2>
+            <div class="flex flex-col items-center text-center mb-16 gap-4">
+                 <span class="text-[#32CD32] text-sm font-bold uppercase tracking-[0.2em] animate-pulse"> /// Membership</span>
+                 <h2 class="text-4xl md:text-6xl font-black italic uppercase font-oswald text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
+                    Pricing <span class="text-outline-stroke text-[#32CD32]" style="-webkit-text-stroke: 1px #32CD32; color: transparent;">Matrix</span>
+                 </h2>
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-center reveal delay-200">
                 <!-- Plan 1 -->
@@ -528,7 +722,12 @@
     <!-- Contact Section -->
     <section id="contact" class="py-24 px-6 relative bg-[#0A0A0A]">
          <div class="max-w-4xl mx-auto">
-             <h2 class="text-4xl md:text-5xl font-semibold tracking-tight uppercase text-center mb-16 font-oswald reveal">Contact Sync</h2>
+             <div class="flex flex-col items-center text-center mb-16 gap-4">
+                 <span class="text-[#FF4500] text-sm font-bold uppercase tracking-[0.2em] animate-pulse"> /// Get In Touch</span>
+                 <h2 class="text-4xl md:text-6xl font-black italic uppercase font-oswald text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
+                    Contact <span class="text-outline-stroke text-[#FF4500]" style="-webkit-text-stroke: 1px #FF4500; color: transparent;">Sync</span>
+                 </h2>
+            </div>
              
              <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                  <!-- Form -->

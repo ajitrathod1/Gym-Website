@@ -72,6 +72,9 @@
             <a href="#" class="nav-link flex items-center px-6 py-3 text-sm font-medium hover:bg-white/5 transition-colors" data-tab="payments">
                 <i data-lucide="dollar-sign" class="w-5 h-5 mr-3"></i> Payments
             </a>
+            <a href="#" class="nav-link flex items-center px-6 py-3 text-sm font-medium hover:bg-white/5 transition-colors" data-tab="attendance">
+                <i data-lucide="clock" class="w-5 h-5 mr-3"></i> Attendance
+            </a>
             <a href="#" class="nav-link flex items-center px-6 py-3 text-sm font-medium hover:bg-white/5 transition-colors" data-tab="profile">
                 <i data-lucide="user-check" class="w-5 h-5 mr-3"></i> Profile
             </a>
@@ -267,6 +270,41 @@
             </div>
         </section>
 
+        <!-- Attendance Tab -->
+        <section id="attendance" class="tab-content hidden">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-3xl font-oswald font-bold text-white uppercase mb-1">Attendance Log</h2>
+                    <p class="text-xs text-gray-500 font-mono tracking-widest">TRACK & MONITOR</p>
+                </div>
+                 <div class="flex items-center gap-2">
+                    <span class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#32CD32] opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-[#32CD32]"></span>
+                    </span>
+                    <span class="text-xs font-mono text-[#32CD32] uppercase tracking-wider">Online</span>
+                </div>
+            </div>
+
+
+            
+            <div class="bg-[#111] border border-white/5 rounded-lg shadow-2xl p-6">
+                <table class="w-full text-left text-sm" id="attendanceTable">
+                    <thead class="bg-black/50 text-[#32CD32] font-oswald uppercase tracking-wider border-b border-white/10">
+                        <tr>
+                            <th class="p-3">Member</th>
+                            <th class="p-3">Time</th>
+                            <th class="p-3">Type</th>
+                            <th class="p-3 text-right">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5 text-gray-400">
+                        <!-- JS Injected -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
         <!-- Profile Tab -->
         <section id="profile" class="tab-content hidden max-w-2xl mx-auto">
             <div class="bg-[#111] border border-white/5 p-8 rounded-xl shadow-2xl relative overflow-hidden">
@@ -343,6 +381,50 @@
                     <input type="file" name="image" accept="image/*" class="text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#FF4500] file:text-black hover:file:bg-[#e04000]">
                 </div>
                 <button type="submit" class="w-full bg-white text-black font-bold uppercase py-3 rounded hover:bg-gray-200 transition-colors">Save Member</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Add Member -->
+    <div id="memberModal" class="modal fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-[#151515] border border-white/10 w-full max-w-lg rounded-lg shadow-2xl overflow-hidden animate-fade-in-up">
+            <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                <h3 class="text-xl font-oswald text-white uppercase">Add New Member</h3>
+                <button class="close text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <form id="memberModalForm" class="p-6 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                     <div>
+                        <label class="text-xs text-gray-500 uppercase font-mono mb-1 block">Full Name</label>
+                        <input type="text" name="fullName" required class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none">
+                     </div>
+                     <div>
+                        <label class="text-xs text-gray-500 uppercase font-mono mb-1 block">Phone</label>
+                        <input type="tel" name="phone" required class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none">
+                     </div>
+                </div>
+                
+                <div>
+                     <label class="text-xs text-gray-500 uppercase font-mono mb-1 block">Plan</label>
+                     <select name="plan" class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none">
+                         <option value="Monthly">Monthly Plan</option>
+                         <option value="Yearly">Yearly Plan</option>
+                         <option value="3 Months">3 Months</option>
+                     </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs text-gray-500 uppercase font-mono mb-1 block">Amount (₹)</label>
+                        <input type="number" name="amount" required class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none">
+                     </div>
+                     <div>
+                        <label class="text-xs text-gray-500 uppercase font-mono mb-1 block">Join Date</label>
+                        <input type="date" name="joinDate" required class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none">
+                     </div>
+                </div>
+
+                <button type="submit" class="w-full bg-[#FF4500] text-black font-bold uppercase py-3 rounded hover:bg-[#ff571a] transition-colors">Add Member</button>
             </form>
         </div>
     </div>

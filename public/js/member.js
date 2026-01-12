@@ -19,6 +19,34 @@ sidebarLinks.forEach(link => {
   });
 });
 
+/* ---------- CHECK-IN LOGIC ---------- */
+const checkInBtn = document.getElementById('checkInBtn');
+const checkInModal = document.getElementById('checkInModal');
+const scanCompleteBtn = document.getElementById('scanCompleteBtn');
+const closeBtns = document.querySelectorAll('.close-modal');
+
+checkInBtn.addEventListener('click', () => {
+  checkInModal.classList.remove('hidden');
+  checkInModal.classList.add('flex');
+});
+
+closeBtns.forEach(btn => btn.addEventListener('click', () => {
+  checkInModal.classList.add('hidden');
+  checkInModal.classList.remove('flex');
+}));
+
+scanCompleteBtn.addEventListener('click', () => {
+  // Simulate Backend Call
+  showToast('Attendance Marked Successfully!', 'success');
+  checkInModal.classList.add('hidden');
+  checkInModal.classList.remove('flex');
+  // Store in local storage for persistence (demo)
+  const today = new Date().toLocaleDateString();
+  let attendance = JSON.parse(localStorage.getItem('attendance') || '[]');
+  if (!attendance.includes(today)) attendance.push(today);
+  localStorage.setItem('attendance', JSON.stringify(attendance));
+});
+
 document.getElementById('logoutBtn').addEventListener('click', () => {
   localStorage.clear();
   location.href = 'login.html';
@@ -26,54 +54,67 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 
 /* ---------- PROFILE + Digital ID ---------- */
 async function loadProfile() {
+  if (token === 'mock-member-token') {
+    // Immediate Mock Render
+    const user = {
+      _id: 'mock-123',
+      fullName: 'Test User',
+      phone: '9999999999',
+      email: 'member@fit.com',
+      age: 24,
+      gender: 'Male',
+      address: 'Vijayapur, Karnataka',
+      subscriptionPlan: 'Gold Plan',
+      expiryDate: new Date(Date.now() + 86400000 * 30),
+      profilePicture: null
+    };
+    renderUser(user);
+    return;
+  }
+
   try {
     const res = await fetch('/api/member/profile', { headers: getHeaders() });
 
     let user;
-    try {
-      if (!res.ok) throw new Error("Offline");
-      user = await res.json();
-    } catch (err) {
-      // MOCK DATA
-      user = {
-        _id: '123',
-        fullName: 'Demo Member',
-        phone: '9876543210',
-        email: 'test@fit.com',
-        age: 25,
-        gender: 'Male',
-        address: 'Gym Street, Cyber City',
-        subscriptionPlan: 'Gold Plan',
-        expiryDate: new Date(new Date().setDate(new Date().getDate() + 24)),
-        profilePicture: null
-      };
-    }
+    if (!res.ok) throw new Error("Offline");
+    user = await res.json();
+    renderUser(user);
 
-    localStorage.setItem('userId', user._id);
+  } catch (err) {
+    // Fallback Mock Data
+    const user = {
+      _id: '123',
+      fullName: 'Demo Member',
+      phone: '9876543210',
+      email: 'test@fit.com',
+      age: 25,
+      gender: 'Male',
+      address: 'Gym Street, Cyber City',
+      subscriptionPlan: 'Gold Plan',
+      expiryDate: new Date(new Date().setDate(new Date().getDate() + 24)),
+      profilePicture: null
+    };
+    renderUser(user);
+  }
+}
 
-    // Form Fill
-    document.getElementById('fullName').value = user.fullName;
-    document.getElementById('phone').value = user.phone;
-    document.getElementById('email').value = user.email;
-    document.getElementById('age').value = user.age;
-    document.getElementById('gender').value = user.gender;
-    document.getElementById('address').value = user.address || '';
+function renderUser(user) {
+  localStorage.setItem('userId', user._id);
+  if (document.getElementById('fullName')) document.getElementById('fullName').value = user.fullName;
+  if (document.getElementById('phone')) document.getElementById('phone').value = user.phone;
+  if (document.getElementById('email')) document.getElementById('email').value = user.email;
+  if (document.getElementById('age')) document.getElementById('age').value = user.age;
+  if (document.getElementById('gender')) document.getElementById('gender').value = user.gender;
+  if (document.getElementById('address')) document.getElementById('address').value = user.address || '';
 
-    // Stats Cards
-    document.getElementById('plan').value = user.subscriptionPlan;
-    document.getElementById('expiry').value = new Date(user.expiryDate).toLocaleDateString();
-    const rem = Math.ceil((new Date(user.expiryDate) - Date.now()) / (1000 * 60 * 60 * 24));
-    document.getElementById('remaining').value = (rem > 0 ? rem : 0) + " Days";
+  if (document.getElementById('plan')) document.getElementById('plan').value = user.subscriptionPlan;
+  if (document.getElementById('expiry')) document.getElementById('expiry').value = new Date(user.expiryDate).toLocaleDateString();
 
-    // Photo
-    const av = document.getElementById('profPic');
-    av.src = user.profilePicture ? user.profilePicture : 'https://i.pravatar.cc/150?u=test@fit.com';
+  const rem = Math.ceil((new Date(user.expiryDate) - Date.now()) / (1000 * 60 * 60 * 24));
+  if (document.getElementById('remaining')) document.getElementById('remaining').value = (rem > 0 ? rem : 0) + " Days";
 
-    // Digital ID (QR Code Simulation)
-    // We'll create a simple QR simulation if we had the container, 
-    // but for now the profile card acts as the digital ID.
-
-  } catch (e) { console.error(e); }
+  const av = document.getElementById('profPic');
+  if (av) av.src = user.profilePicture ? user.profilePicture : 'https://i.pravatar.cc/150?u=test@fit.com';
 }
 
 document.getElementById('profileForm').addEventListener('submit', async (e) => {
@@ -138,6 +179,36 @@ async function loadPayments() {
     });
   } catch (e) { console.error(e); }
 }
+
+/* ---------- TOAST NOTIFICATIONS ---------- */
+window.showToast = function (msg, type = 'success') {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  const colorClass = type === 'error' ? 'border-red-500 text-red-500' : 'border-[#32CD32] text-[#32CD32]';
+  const iconName = type === 'error' ? 'alert-circle' : 'check-circle';
+
+  toast.className = `toast bg-[#0a0a0a] border-l-4 ${colorClass} text-white px-6 py-4 rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center gap-3 min-w-[320px] border-y border-r border-white/5 backdrop-blur-md`;
+
+  toast.innerHTML = `
+        <div class="bg-white/5 p-2 rounded-full">
+            <i data-lucide="${iconName}" class="w-5 h-5"></i>
+        </div>
+        <div>
+            <p class="font-bold text-sm uppercase tracking-wider">${type}</p>
+            <p class="text-xs text-gray-400 font-mono mt-0.5">${msg}</p>
+        </div>
+    `;
+
+  container.appendChild(toast);
+  if (window.lucide) lucide.createIcons();
+
+  setTimeout(() => {
+    toast.classList.add('hiding');
+    toast.addEventListener('animationend', () => toast.remove());
+  }, 4000);
+};
 
 /* ---------- ON LOAD ---------- */
 loadProfile();

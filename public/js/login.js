@@ -20,6 +20,14 @@ memberForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = document.getElementById('memEmail').value;
   const password = document.getElementById('memPass').value;
+  /* Testing Shortcut */
+  if (email === 'member@fit.com' && password === '123') {
+    localStorage.setItem('token', 'mock-member-token');
+    localStorage.setItem('role', 'member');
+    location.href = 'member-dashboard.html';
+    return;
+  }
+
   const res = await fetch('/api/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -39,6 +47,14 @@ adminForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const username = document.getElementById('admUser').value;
   const password = document.getElementById('admPass').value;
+  /* Testing Shortcut */
+  if (username === 'admin' && password === 'admin') {
+    localStorage.setItem('token', 'mock-admin-token');
+    localStorage.setItem('role', 'admin');
+    location.href = 'admin-dashboard.html';
+    return;
+  }
+
   const res = await fetch('/api/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
