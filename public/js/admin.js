@@ -94,6 +94,7 @@ async function loadMembers() {
         <td class="p-4 text-white font-mono">₹${m.amount || 0}</td>
         <td class="p-4 ${m.remainingDays < 10 ? 'text-red-500 font-bold' : 'text-green-400'}">${m.remainingDays} Days</td>
         <td class="p-4 text-right">
+          <button onclick="openPlanModal('${m._id}')" class="text-green-400 hover:text-green-300 mr-3" title="Assign Plan"><i data-lucide="clipboard-list" class="w-4 h-4"></i></button>
           <button onclick="editSubscription('${m._id}')" class="text-blue-400 hover:text-blue-300 mr-3" title="Extend Plan"><i data-lucide="calendar-plus" class="w-4 h-4"></i></button>
           <button onclick="deleteMember('${m._id}')" class="text-red-500 hover:text-red-400" title="Delete Member"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
         </td>`;
@@ -285,59 +286,117 @@ async function loadPayments() {
   } catch (e) { console.error(e); }
 }
 
+/* ---------- PLAN ASSIGNMENT ---------- */
+window.openPlanModal = (memberId) => {
+  document.getElementById('planMemberId').value = memberId;
+  const modal = document.getElementById('planModal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+};
+
+document.getElementById('planModalForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData.entries());
+
+  try {
+    const res = await fetch('/api/plans', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getHeaders() },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) alert("Plan Assigned!");
+    else alert("Failed to assign plan");
+
+    document.getElementById('planModal').classList.add('hidden');
+    document.getElementById('planModal').classList.remove('flex');
+    e.target.reset();
+  } catch (err) {
+    console.error(err);
+    alert("Error assigning plan");
+  }
+});
+
 /* ---------- ATTENDANCE ---------- */
 async function loadAttendance() {
   try {
+    const res = await fetch('/api/attendance/today', { headers: getHeaders() });
+    let data;
+    try { data = await res.json(); } catch (e) { throw new Error("Offline"); }
+
+    // If empty or offline, maybe fall back for demo? No, let's try to show real data first
+    if (!data || data.length === 0 && !res.ok) throw new Error("No Data");
+
     const tbody = document.querySelector('#attendanceTable tbody');
     tbody.innerHTML = '';
 
-    const mockData = [
-      { id: 1, name: "Amit Sharma", time: "06:30 AM", type: "QR Scan", status: "On Time" },
-      { id: 2, name: "Sneha Gupta", time: "06:45 AM", type: "Manual", status: "Late" },
-      { id: 3, name: "Ramesh Powar", time: "07:00 AM", type: "QR Scan", status: "On Time" },
-      { id: 4, name: "Rahul Verma", time: "Yesterday", type: "QR Scan", status: "On Time" }
-    ];
-
-    // Check LocalStorage
-    const localAtt = JSON.parse(localStorage.getItem('attendance') || '[]');
-    if (localAtt.length > 0) {
-      const today = new Date().toLocaleDateString();
-      if (localAtt.includes(today)) {
-        mockData.unshift({ id: 'mock-123', name: "Test Member (You)", time: "Just Now", type: "QR Scan", status: "Active Now" });
-      }
+    if (data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">No attendance marked today.</td></tr>';
+      return;
     }
 
-    mockData.forEach(m => {
+    data.forEach(m => {
       const tr = document.createElement('tr');
       tr.className = 'hover:bg-white/5 transition-colors border-b border-white/5 cursor-pointer group';
-      tr.onclick = () => toggleHistory(tr, m); // Click to Expand
+      // tr.onclick = () => toggleHistory(tr, m); // History expansion can stay mock or implement later
 
       tr.innerHTML = `
                 <td class="p-3">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-full bg-[#32CD32]/20 text-[#32CD32] flex items-center justify-center font-bold text-xs border border-[#32CD32]/40 transition-transform group-hover:scale-110">
-                            ${m.name.charAt(0)}
+                            ${m.memberId.fullName.charAt(0)}
                         </div>
                         <div>
-                            <span class="text-white font-bold text-sm block">${m.name}</span>
-                            <span class="text-[10px] text-gray-500 font-mono">Click to view history</span>
+                            <span class="text-white font-bold text-sm block">${m.memberId.fullName}</span>
+                            <span class="text-[10px] text-gray-500 font-mono">${m.memberId.email}</span>
                         </div>
                     </div>
                 </td>
-                <td class="p-3 text-gray-400 font-mono text-xs">${m.time}</td>
-                <td class="p-3 text-gray-500 text-xs uppercase tracking-wider">${m.type}</td>
+                <td class="p-3 text-gray-400 font-mono text-xs">${new Date(m.date).toLocaleTimeString()}</td>
+                <td class="p-3 text-gray-500 text-xs uppercase tracking-wider">Check-in</td>
                 <td class="p-3 text-right">
-                    <span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest ${m.status === 'Late' ? 'bg-red-500/10 text-red-500 border border-red-500/20' : 'bg-[#32CD32]/10 text-[#32CD32] border border-[#32CD32]/20'}">
+                    <span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest bg-[#32CD32]/10 text-[#32CD32] border border-[#32CD32]/20">
                         ${m.status}
                     </span>
-                    <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500 ml-2 inline transition-transform group-aria-expanded:rotate-180"></i>
                 </td>
              `;
       tbody.appendChild(tr);
     });
     if (window.lucide) lucide.createIcons();
 
-  } catch (e) { console.error(e); }
+  } catch (e) {
+    // Fallback to Mock if DB works not
+    console.warn("Using Mock Attendance");
+    renderMockAttendance();
+  }
+}
+
+function renderMockAttendance() {
+  const tbody = document.querySelector('#attendanceTable tbody');
+  tbody.innerHTML = '';
+  const mockData = [
+    { id: 1, name: "Amit Sharma", time: "06:30 AM", type: "QR Scan", status: "On Time" },
+    { id: 2, name: "Sneha Gupta", time: "06:45 AM", type: "Manual", status: "Late" },
+    { id: 3, name: "Ramesh Powar", time: "07:00 AM", type: "QR Scan", status: "On Time" },
+  ];
+  mockData.forEach(m => {
+    const tr = document.createElement('tr');
+    tr.className = 'hover:bg-white/5 transition-colors border-b border-white/5 cursor-pointer group';
+    tr.innerHTML = `
+                <td class="p-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-[#32CD32]/20 text-[#32CD32] flex items-center justify-center font-bold text-xs border border-[#32CD32]/40">
+                            ${m.name.charAt(0)}
+                        </div>
+                        <div><span class="text-white font-bold text-sm block">${m.name}</span></div>
+                    </div>
+                </td>
+                <td class="p-3 text-gray-400 font-mono text-xs">${m.time}</td>
+                <td class="p-3 text-gray-500 text-xs uppercase tracking-wider">${m.type}</td>
+                <td class="p-3 text-right"><span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest bg-[#32CD32]/10 text-[#32CD32]">${m.status}</span></td>
+             `;
+    tbody.appendChild(tr);
+  });
 }
 
 function toggleHistory(row, member) {

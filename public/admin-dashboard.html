@@ -429,7 +429,33 @@
         </div>
     </div>
 
-    <!-- Modal: New Post -->
+    <!-- Modal: Assign Plan -->
+    <div id="planModal" class="modal fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-[#151515] border border-white/10 w-full max-w-lg rounded-lg shadow-2xl overflow-hidden animate-fade-in-up">
+            <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                <h3 class="text-xl font-oswald text-white uppercase">Assign Plan</h3>
+                <button class="close text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <form id="planModalForm" class="p-6 space-y-4">
+                <input type="hidden" name="memberId" id="planMemberId">
+                <div>
+                     <label class="text-xs text-gray-500 uppercase font-mono mb-1 block">Plan Type</label>
+                     <select name="type" class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none">
+                         <option value="Workout">Workout Routine</option>
+                         <option value="Diet">Diet Plan</option>
+                     </select>
+                </div>
+                <input type="text" name="title" placeholder="Plan Title (e.g. Weight Loss Phase 1)" required class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none">
+                <textarea name="content" placeholder="Plan Details (HTML allowed)..." required rows="6" class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none resize-none"></textarea>
+                <div>
+                    <label class="text-xs text-gray-500 uppercase font-mono mb-1 block">End Date</label>
+                    <input type="date" name="endDate" class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none">
+                </div>
+                <button type="submit" class="w-full bg-[#FF4500] text-black font-bold uppercase py-3 rounded hover:bg-[#ff571a] transition-colors">Assign Plan</button>
+            </form>
+        </div>
+    </div>
+
     <div id="postModal" class="modal fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="bg-[#151515] border border-white/10 w-full max-w-lg rounded-lg shadow-2xl overflow-hidden animate-fade-in-up">
             <div class="p-6 border-b border-white/5 flex justify-between items-center">

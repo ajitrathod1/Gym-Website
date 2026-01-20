@@ -16,6 +16,7 @@ sidebarLinks.forEach(link => {
     if (tabId === 'profile') loadProfile();
     if (tabId === 'posts') loadPosts();
     if (tabId === 'payments') loadPayments();
+    if (tabId === 'plans') loadPlans();
   });
 });
 
@@ -177,6 +178,53 @@ async function loadPayments() {
         `;
       tbody.appendChild(tr);
     });
+  } catch (e) { console.error(e); }
+}
+
+/* ---------- PLANS ---------- */
+async function loadPlans() {
+  try {
+    const res = await fetch('/api/plans/my-plans', { headers: getHeaders() });
+    let plans = [];
+    try { plans = await res.json(); } catch (e) {
+      console.warn("Using Mock Plans");
+      plans = [
+        { type: 'Workout', title: 'Beginner Hypertrophy', content: '<h3>Monday (Push)</h3><p>Bench Press: 3x10<br>Overhead Press: 3x12</p>', endDate: new Date() },
+        { type: 'Diet', title: 'Weight Loss Manual', content: 'Calorie deficit: 2000kcal. High protein.', endDate: new Date() }
+      ];
+    }
+
+    // Sort latest first
+    const container = document.getElementById('plansContainer');
+    if (!container) return; // safety
+    container.innerHTML = '';
+
+    if (plans.length === 0) {
+      container.innerHTML = '<p class="text-gray-500">No plans assigned yet.</p>';
+      return;
+    }
+
+    plans.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'bg-[#111] border border-white/5 rounded-lg p-6 shadow-lg hover:border-[#32CD32]/30 transition-colors';
+      div.innerHTML = `
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                     <span class="text-xs font-bold px-2 py-1 rounded border ${p.type === 'Diet' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 'bg-[#FF4500]/10 text-[#FF4500] border-[#FF4500]/20'} uppercase tracking-wider">${p.type}</span>
+                     <h3 class="text-xl font-oswald text-white mt-2">${p.title}</h3>
+                </div>
+                <div class="text-right">
+                     <p class="text-[10px] text-gray-500 uppercase tracking-widest">Expires</p>
+                     <p class="text-sm font-mono text-gray-300">${p.endDate ? new Date(p.endDate).toLocaleDateString() : 'Never'}</p>
+                </div>
+            </div>
+            <div class="prose prose-invert prose-sm text-gray-400">
+                ${p.content}
+            </div>
+        `;
+      container.appendChild(div);
+    });
+
   } catch (e) { console.error(e); }
 }
 
