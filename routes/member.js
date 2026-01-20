@@ -19,7 +19,7 @@ router.get('/profile', auth, role(['member']), async (req, res) => {
 router.put('/profile', auth, role(['member']), upload, async (req, res) => {
   try {
     const updates = req.body;
-    if (req.file) updates.profilePicture = `/${req.file.filename}`;   // ← slash add
+    if (req.file) updates.profilePicture = req.file.filename;
     const updated = await Member.findByIdAndUpdate(req.user.id, updates, { new: true });
     res.json({ msg: 'Profile updated', profilePicture: updated.profilePicture });
   } catch (err) {

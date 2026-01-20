@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const Member = require('../models/Member');
 const Admin = require('../models/Admin');
 const Payment = require('../models/Payment');
+const Attendance = require('../models/Attendance');
 const auth = require('../middleware/auth');
 const role = require('../middleware/role');
 const upload = require('../middleware/uploads');
@@ -24,9 +25,32 @@ router.get('/stats', auth, role(['admin']), async (req, res) => {
       expiryDate: { $lte: nextWeek, $gte: new Date() }
     });
 
-    // Mock Weekly Footfall (Since we don't have real attendance yet)
-    // In a real app, we'd query Attendance model
-    const weeklyFootfall = [45, 52, 38, 65, 42, 58, 70]; // Mon-Sun
+    // Real Weekly Footfall (Last 7 Days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+    sevenDaysAgo.setHours(0, 0, 0, 0);
+
+    const attendanceData = await Attendance.aggregate([
+      { $match: { date: { $gte: sevenDaysAgo } } },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+
+    // Map to last 7 days array (Mon, Tue, etc. labels handled by frontend usually, we just send counts)
+    // But to ensure order, we iterate from 7 days ago to today
+    const weeklyFootfall = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date();
+      d.setDate(d.getDate() - (6 - i));
+      const dateStr = d.toISOString().split('T')[0];
+      const record = attendanceData.find(r => r._id === dateStr);
+      weeklyFootfall.push(record ? record.count : 0);
+    }
 
     res.json({
       totalMembers,
@@ -72,7 +96,7 @@ router.post('/members', auth, role(['admin']), upload, async (req, res) => {
     const member = await Member.create({
       fullName, phone, email, age, gender, address, password: hashed,
       subscriptionPlan, expiryDate: expiry,
-      profilePicture: req.file ? `uploads/members/${req.file.filename}` : 'assets/avatar.png'
+      profilePicture: req.file ? req.file.filename : 'assets/avatar.png'
     });
 
     // RECORD PAYMENT
