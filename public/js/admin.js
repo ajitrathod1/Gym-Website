@@ -35,6 +35,8 @@ sidebarLinks.forEach(link => {
       loadProfile();
       loadPricing();
     }
+    // CMS loads on demand or preloaded? No need to fetch until updated ideally, but we can fetch existing if needed
+    // For now simple form submission
   });
 });
 
@@ -488,6 +490,25 @@ function toggleHistory(row, member) {
   row.after(tr);
   if (window.lucide) lucide.createIcons();
 }
+
+/* ---------- CMS ---------- */
+window.updateContent = async (e, section) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+
+  try {
+    const res = await fetch(`/api/content/${section}`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}` }, // Form data automatically sets multipart content type
+      body: formData
+    });
+    if (res.ok) alert("Site Content Updated!");
+    else alert("Update failed");
+  } catch (err) {
+    console.error(err);
+    alert("Server Error");
+  }
+};
 
 /* ---------- PROFILE ---------- */
 async function loadProfile() {

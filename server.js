@@ -31,6 +31,7 @@ app.use('/api/posts', require('./routes/posts'));
 app.use('/api/payments', require('./routes/payments'));
 app.use('/api/attendance', require('./routes/attendance'));
 app.use('/api/plans', require('./routes/plans'));
+app.use('/api/content', require('./routes/content'));
 
 /* ---------- WILDCARD → SEND SPA (Express 5 compatible) ---------- */
 app.use((req, res) => res.sendFile(path.resolve('public/index.html')));

@@ -75,6 +75,9 @@
             <a href="#" class="nav-link flex items-center px-6 py-3 text-sm font-medium hover:bg-white/5 transition-colors" data-tab="attendance">
                 <i data-lucide="clock" class="w-5 h-5 mr-3"></i> Attendance
             </a>
+            <a href="#" class="nav-link flex items-center px-6 py-3 text-sm font-medium hover:bg-white/5 transition-colors" data-tab="cms">
+                <i data-lucide="layout" class="w-5 h-5 mr-3"></i> Site Content
+            </a>
             <a href="#" class="nav-link flex items-center px-6 py-3 text-sm font-medium hover:bg-white/5 transition-colors" data-tab="profile">
                 <i data-lucide="user-check" class="w-5 h-5 mr-3"></i> Profile
             </a>
@@ -302,6 +305,63 @@
                         <!-- JS Injected -->
                     </tbody>
                 </table>
+            </div>
+        </section>
+
+        <!-- CMS Tab -->
+        <section id="cms" class="tab-content hidden">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-3xl font-oswald font-bold text-white uppercase mb-1">Website Editor</h2>
+                    <p class="text-xs text-gray-500 font-mono tracking-widest">MANAGE SITE CONTENT</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Hero Section Editor -->
+                <div class="bg-[#111] border border-white/5 rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
+                         <h3 class="text-xl font-oswald text-white uppercase">Hero Section</h3>
+                         <span class="text-[10px] text-[#32CD32] border border-[#32CD32]/20 px-2 py-1 rounded">Live on Home</span>
+                    </div>
+                    <form onsubmit="updateContent(event, 'home_hero')" class="space-y-4">
+                        <div>
+                            <label class="text-xs text-gray-500 uppercase font-mono block mb-1">Main Headline</label>
+                            <input type="text" name="title" placeholder="e.g. UNLEASH YOUR POTENTIAL" class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none font-oswald tracking-wide">
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-500 uppercase font-mono block mb-1">Sub Headline</label>
+                            <input type="text" name="subtitle" placeholder="e.g. Join the best gym in town" class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none">
+                        </div>
+                        <div>
+                             <label class="text-xs text-gray-500 uppercase font-mono block mb-1">Hero Image</label>
+                             <input type="file" name="image" class="text-sm text-gray-400">
+                        </div>
+                        <button type="submit" class="bg-[#FF4500] text-black font-bold uppercase text-xs px-4 py-3 rounded w-full hover:bg-[#ff571a] transition-colors">
+                            Update Hero
+                        </button>
+                    </form>
+                </div>
+
+                <!-- About Section Editor -->
+                <div class="bg-[#111] border border-white/5 rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
+                         <h3 class="text-xl font-oswald text-white uppercase">About Section</h3>
+                    </div>
+                    <form onsubmit="updateContent(event, 'about_us')" class="space-y-4">
+                        <div>
+                            <label class="text-xs text-gray-500 uppercase font-mono block mb-1">About Title</label>
+                            <input type="text" name="title" placeholder="e.g. Iron & Cyber Legacy" class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none font-oswald tracking-wide">
+                        </div>
+                         <div>
+                            <label class="text-xs text-gray-500 uppercase font-mono block mb-1">Description</label>
+                            <textarea name="body" rows="4" class="w-full bg-black/50 border border-white/10 p-3 rounded text-white focus:border-[#FF4500] outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="bg-white text-black font-bold uppercase text-xs px-4 py-3 rounded w-full hover:bg-gray-200 transition-colors">
+                            Update About
+                        </button>
+                    </form>
+                </div>
             </div>
         </section>
 
