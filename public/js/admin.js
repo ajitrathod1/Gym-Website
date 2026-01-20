@@ -124,13 +124,25 @@ window.editSubscription = async id => {
   const days = prompt('Extend subscription by (days):', 30);
   if (!days) return;
   // Mock update
-  alert(`Subscription extended by ${days} days! (Demo)`);
+  showToast(`Subscription extended by ${days} days!`, 'success');
 
-  await fetch(`/api/admin/members/${id}/subscription`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...getHeaders() },
-    body: JSON.stringify({ expiryDate: new Date(), subscriptionPlan: 'Custom' }) // Simplified for demo
-  });
+  const btn = document.querySelector(`button[onclick="editSubscription('${id}')"]`);
+  const originalContent = btn.innerHTML;
+  btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>';
+
+  try {
+    await fetch(`/api/admin/members/${id}/subscription`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...getHeaders() },
+      body: JSON.stringify({ expiryDate: new Date(), subscriptionPlan: 'Custom' }) // Simplified for demo
+    });
+    // Real success toast would go here if not for above mock
+  } catch (err) {
+    showToast('Failed to extend subscription', 'error');
+  } finally {
+    btn.innerHTML = originalContent;
+    if (window.lucide) lucide.createIcons();
+  }
 };
 
 /* ---------- POSTS ---------- */
@@ -250,8 +262,17 @@ window.savePricing = function () {
     yearly: document.getElementById('priceYearly').value,
     custom: document.getElementById('priceCustom').value
   };
-  console.log("Saving Prices:", newPrices);
-  alert("Pricing Updated Successfully!");
+  const btn = document.querySelector('button[onclick="savePricing()"]');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin mr-2"></i> Saving...';
+
+  // Simulate API delay
+  setTimeout(() => {
+    console.log("Saving Prices:", newPrices);
+    showToast("Pricing Updated Successfully!", 'success');
+    btn.innerHTML = originalText;
+    if (window.lucide) lucide.createIcons();
+  }, 800);
 };
 
 window.deletePost = async id => {
@@ -301,21 +322,30 @@ document.getElementById('planModalForm').addEventListener('submit', async e => {
   const formData = new FormData(e.target);
   const data = Object.fromEntries(formData.entries());
 
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const originalText = submitBtn.innerText;
+  submitBtn.innerText = 'Assigning...';
+  submitBtn.disabled = true;
+
   try {
     const res = await fetch('/api/plans', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...getHeaders() },
       body: JSON.stringify(data)
     });
-    if (res.ok) alert("Plan Assigned!");
-    else alert("Failed to assign plan");
+
+    if (res.ok) showToast("Plan Assigned Successfully!", 'success');
+    else throw new Error("Failed to assign plan");
 
     document.getElementById('planModal').classList.add('hidden');
     document.getElementById('planModal').classList.remove('flex');
     e.target.reset();
   } catch (err) {
     console.error(err);
-    alert("Error assigning plan");
+    showToast("Error assigning plan", 'error');
+  } finally {
+    submitBtn.innerText = originalText;
+    submitBtn.disabled = false;
   }
 });
 
@@ -502,11 +532,11 @@ window.updateContent = async (e, section) => {
       headers: { Authorization: `Bearer ${token}` }, // Form data automatically sets multipart content type
       body: formData
     });
-    if (res.ok) alert("Site Content Updated!");
-    else alert("Update failed");
+    if (res.ok) showToast("Site Content Updated!", 'success');
+    else showToast("Update failed", 'error');
   } catch (err) {
     console.error(err);
-    alert("Server Error");
+    showToast("Server Error", 'error');
   }
 };
 
@@ -568,15 +598,52 @@ document.getElementById('memberModalForm').addEventListener('submit', async e =>
     </td>`;
   tbody.prepend(tr);
 
-  alert("✅ Member Added Successfully!");
+  showToast("Member Added Successfully!", 'success');
   if (window.lucide) lucide.createIcons();
 });
 
 // Add Post
 document.getElementById('postModalForm').addEventListener('submit', async e => {
   e.preventDefault();
-  alert("Post Published! (Demo)");
-  document.getElementById('postModal').classList.add('hidden');
-  document.getElementById('postModal').classList.remove('flex');
-  loadPosts();
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  submitBtn.innerText = 'Publishing...';
+
+  setTimeout(() => {
+    showToast("Post Published!", 'success');
+    document.getElementById('postModal').classList.add('hidden');
+    document.getElementById('postModal').classList.remove('flex');
+    loadPosts();
+    submitBtn.innerText = 'PUBLISH POST';
+  }, 1000);
 });
+
+/* ---------- REUSABLE TOAST ---------- */
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = `fixed bottom-5 right-5 px-6 py-4 rounded-lg shadow-2xl text-white transform translate-y-10 opacity-0 transition-all duration-300 flex items-center gap-3 z-50 border border-white/10 ${type === 'success' ? 'bg-[#1a1a1a] border-l-4 border-l-[#32CD32]' : 'bg-[#1a1a1a] border-l-4 border-l-red-500'}`;
+
+  const icon = type === 'success' ? 'check-circle' : 'alert-circle';
+  const color = type === 'success' ? 'text-[#32CD32]' : 'text-red-500';
+
+  toast.innerHTML = `
+        <i data-lucide="${icon}" class="w-6 h-6 ${color}"></i>
+        <div>
+            <h4 class="font-bold text-sm uppercase tracking-wider">${type}</h4>
+            <p class="text-xs text-gray-400">${message}</p>
+        </div>
+    `;
+
+  document.body.appendChild(toast);
+  if (window.lucide) lucide.createIcons();
+
+  // Animate In
+  requestAnimationFrame(() => {
+    toast.classList.remove('translate-y-10', 'opacity-0');
+  });
+
+  // Remove
+  setTimeout(() => {
+    toast.classList.add('opacity-0', 'translate-y-10');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
