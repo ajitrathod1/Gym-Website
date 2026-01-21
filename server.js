@@ -1,3 +1,8 @@
+/**
+ * @file server.js
+ * @description Main entry point for the Gym Management System backend.
+ * Handles database connection, middleware configuration, and route distribution.
+ */
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -11,6 +16,10 @@ const Admin = require('./models/Admin');
 
 const app = express();
 
+/**
+ * Ensure upload directories exist on startup.
+ * Creates folders for member photos and blog posts if missing.
+ */
 /* ---------- AUTO-CREATE UPLOAD FOLDERS ---------- */
 ['public/uploads/members', 'public/uploads/posts'].forEach(dir => {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
